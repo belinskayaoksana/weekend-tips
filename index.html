@@ -117,100 +117,96 @@
             position: relative;
         }
 
-        /* Печиво бажань — оновлений дизайн */
+        /* Печиво бажань — стилізація під реальне fortune cookie */
         .cookie-wrapper {
             position: relative;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 16px;
-            min-height: 160px;
+            gap: 18px;
+            min-height: 170px;
         }
 
         .cookie {
             position: relative;
-            width: 140px;
-            height: 140px;
+            width: 130px;
+            height: 90px;
             cursor: pointer;
             transition: transform 0.2s ease;
         }
 
         .cookie:hover {
-            transform: scale(1.04);
+            transform: translateY(-2px);
         }
 
-        /* Дві половинки круглого печива */
-        .cookie-half {
+        /* База печива */
+        .cookie-body {
             position: absolute;
-            width: 140px;
-            height: 140px;
-            background: radial-gradient(circle at 30% 30%, #FFEAC7, #FFB84D 70%, #E89B3D 100%);
-            border-radius: 50%;
-            box-shadow: 0 6px 16px rgba(139, 69, 19, 0.35);
-            transition: transform 0.5s ease, opacity 0.5s ease;
+            inset: 0;
+            margin: auto;
+            width: 120px;
+            height: 80px;
+            background: radial-gradient(circle at 30% 20%, #FFEAC7, #F4B766 65%, #E2963B 100%);
+            border-radius: 60% 60% 70% 70%;
+            box-shadow: 0 8px 18px rgba(139, 69, 19, 0.35);
         }
 
-        /* Ліва половинка — ліва півсфера */
-        .cookie-half.left {
-            left: 0;
-            clip-path: polygon(0 0, 50% 0, 50% 100%, 0 100%);
-            transform-origin: right center;
-        }
-
-        /* Права половинка — права півсфера */
-        .cookie-half.right {
-            right: 0;
-            clip-path: polygon(50% 0, 100% 0, 100% 100%, 50% 100%);
-            transform-origin: left center;
-        }
-
-        /* Стан “закрито” — половинки разом */
-        .cookie-wrapper:not(.open) .cookie-half.left,
-        .cookie-wrapper:not(.open) .cookie-half.right {
-            transform: translateX(0) rotate(0deg);
-        }
-
-        /* Стан “відкрито” — половинки розʼїжджаються як розламане печиво */
-        .cookie-wrapper.open .cookie-half.left {
-            transform: translateX(-24px) rotate(-10deg);
-        }
-
-        .cookie-wrapper.open .cookie-half.right {
-            transform: translateX(24px) rotate(10deg);
-        }
-
-        /* Тріщина по центру */
-        .cookie::after {
+        /* Дві складки, щоб виглядало як зігнуте печиво */
+        .cookie-body::before,
+        .cookie-body::after {
             content: "";
             position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 4px;
+            width: 70px;
             height: 70px;
-            background: rgba(153, 90, 35, 0.7);
-            transform: translate(-50%, -50%) scaleY(0);
-            border-radius: 999px;
-            box-shadow: 0 0 4px rgba(153, 90, 35, 0.6);
-            opacity: 0;
-            transition: opacity 0.4s ease, transform 0.4s ease;
+            background: radial-gradient(circle at 30% 20%, #FFEAC7, #F4B766 65%, #E2963B 100%);
+            border-radius: 60% 60% 60% 60%;
+            top: 5px;
+            box-shadow: 0 6px 14px rgba(139, 69, 19, 0.28);
+            transition: transform 0.45s ease;
         }
 
-        /* Коли печиво “зламане” — тріщина видима */
-        .cookie-wrapper.open .cookie::after {
-            opacity: 1;
-            transform: translate(-50%, -50%) scaleY(1);
+        .cookie-body::before {
+            left: -8px;
+            transform: rotate(-22deg);
         }
 
-        /* Смуга-папірець з побажанням */
+        .cookie-body::after {
+            right: -8px;
+            transform: rotate(22deg);
+        }
+
+        /* Імітація "розкриття" */
+        .cookie-wrapper.open .cookie-body::before {
+            transform: translateX(-6px) rotate(-32deg);
+        }
+
+        .cookie-wrapper.open .cookie-body::after {
+            transform: translateX(6px) rotate(32deg);
+        }
+
+        /* Легка тінь усередині для ефекту поглиблення */
+        .cookie-inner-shadow {
+            position: absolute;
+            inset: 0;
+            margin: auto;
+            width: 70px;
+            height: 40px;
+            top: 24px;
+            background: radial-gradient(ellipse at center, rgba(180, 104, 40, 0.35), transparent 70%);
+            border-radius: 50%;
+            opacity: 0.9;
+        }
+
+        /* Папірець з побажанням */
         .fortune {
             opacity: 0;
             transform: translateY(10px);
-            background: #FFF7E8;
+            background: #FFFDF7;
             border-radius: 999px;
             padding: 10px 18px;
             box-shadow: 0 4px 16px rgba(255, 184, 77, 0.35);
             max-width: 100%;
-            transition: opacity 0.5s ease 0.2s, transform 0.5s ease 0.2s;
+            transition: opacity 0.5s ease 0.15s, transform 0.5s ease 0.15s;
         }
 
         .cookie-wrapper.open .fortune {
@@ -284,8 +280,9 @@
         <div class="wish-frame">
             <div class="cookie-wrapper open" id="cookieWrapper" onclick="generateWish()">
                 <div class="cookie">
-                    <div class="cookie-half left"></div>
-                    <div class="cookie-half right"></div>
+                    <div class="cookie-body">
+                        <div class="cookie-inner-shadow"></div>
+                    </div>
                 </div>
                 <div class="fortune">
                     <span class="wish-text" id="wishText">
@@ -347,7 +344,7 @@
 
             usedWishes.push(originalIndex);
 
-            // Закриваємо печиво перед новим бажанням
+            // "закриваємо" печиво
             wrapper.classList.remove('open');
             wishEl.style.opacity = '0';
 
@@ -356,7 +353,7 @@
                 count++;
                 document.getElementById('counter').textContent = count + ' побажань показано';
 
-                // Відкриваємо печиво знову
+                // "відкриваємо" — папірець виїжджає
                 wrapper.classList.add('open');
                 wishEl.style.transition = 'opacity 0.4s ease';
                 wishEl.style.opacity = '1';
