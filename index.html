@@ -1,276 +1,282 @@
 <!DOCTYPE html>
 <html lang="uk">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Побажання на вихідні</title>
-  <style>
-    :root {
-      color-scheme: light dark;
-      --bg: #0b1020;
-      --card: #161b2b;
-      --accent: #ffb347;
-      --accent-soft: rgba(255, 179, 71, 0.12);
-      --text: #ffffff;
-      --muted: #a6abc7;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Побажання на вихідні</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    body {
-      margin: 0;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: radial-gradient(circle at top, #232a4a 0, #050814 55%, #02030a 100%);
-      color: var(--text);
-    }
+        body {
+            font-family: 'Georgia', serif;
+            overflow-x: hidden;
+            background: linear-gradient(135deg, #FFF4E6 0%, #FFB84D 50%, #FF8C69 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
 
-    .card {
-      width: min(460px, 94vw);
-      background: linear-gradient(145deg, rgba(255,255,255,0.04), rgba(0,0,0,0.4));
-      border-radius: 24px;
-      padding: 24px 22px 20px;
-      box-shadow:
-        0 22px 60px rgba(0,0,0,0.8),
-        0 0 0 1px rgba(255,255,255,0.05);
-      backdrop-filter: blur(18px);
-      position: relative;
-      overflow: hidden;
-    }
+        .card {
+            max-width: 500px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 30px;
+            padding: 40px 30px;
+            box-shadow: 0 20px 60px rgba(255, 140, 105, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
 
-    .card::before {
-      content: "";
-      position: absolute;
-      inset: -40%;
-      background:
-        radial-gradient(circle at 0% 10%, rgba(255, 255, 255, 0.14), transparent 55%),
-        radial-gradient(circle at 100% 100%, rgba(255, 140, 0, 0.18), transparent 60%);
-      opacity: 0.45;
-      pointer-events: none;
-      mix-blend-mode: screen;
-    }
+        .sparkle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #FFB84D;
+            border-radius: 50%;
+            animation: sparkle 3s infinite;
+            box-shadow: 0 0 10px #FFB84D;
+        }
 
-    .card-inner {
-      position: relative;
-      z-index: 1;
-    }
+        @keyframes sparkle {
+            0%, 100% { opacity: 0; transform: scale(0); }
+            50% { opacity: 1; transform: scale(1); }
+        }
 
-    h1 {
-      font-size: 1.4rem;
-      margin: 0 0 8px;
-      letter-spacing: 0.03em;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
+        .leaf {
+            position: absolute;
+            font-size: 24px;
+            animation: fall linear infinite;
+            opacity: 0.7;
+        }
 
-    h1 span.emoji {
-      font-size: 1.5rem;
-      filter: drop-shadow(0 0 6px rgba(0,0,0,0.6));
-    }
+        @keyframes fall {
+            0% {
+                transform: translateY(-100px) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.7;
+            }
+            90% {
+                opacity: 0.7;
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
 
-    .subtitle {
-      font-size: 0.9rem;
-      color: var(--muted);
-      margin-bottom: 18px;
-    }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
 
-    .wish-box {
-      margin: 0 0 18px;
-      padding: 14px 14px 14px 12px;
-      border-radius: 16px;
-      background: rgba(2, 5, 25, 0.7);
-      border: 1px solid rgba(255,255,255,0.08);
-      display: flex;
-      gap: 10px;
-      align-items: flex-start;
-      min-height: 72px;
-    }
+        .header h1 {
+            font-size: 28px;
+            color: #FF6B9D;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(255, 107, 157, 0.2);
+        }
 
-    .wish-icon {
-      width: 28px;
-      height: 28px;
-      border-radius: 999px;
-      background: var(--accent-soft);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.3rem;
-      flex-shrink: 0;
-    }
+        .header p {
+            font-size: 16px;
+            color: #FF8C69;
+            line-height: 1.6;
+        }
 
-    .wish-text {
-      font-size: 1.02rem;
-      line-height: 1.45;
-    }
+        .wish-frame {
+            background: linear-gradient(135deg, #FFF4E6 0%, #FFE4D6 100%);
+            border-radius: 20px;
+            padding: 30px;
+            margin: 30px 0;
+            box-shadow: inset 0 2px 10px rgba(255, 140, 105, 0.1);
+            border: 3px solid #FFB84D;
+            position: relative;
+        }
 
-    .meta {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 0.78rem;
-      color: var(--muted);
-      margin-bottom: 10px;
-    }
+        .wish-text {
+            font-size: 18px;
+            color: #8B4513;
+            line-height: 1.8;
+            text-align: center;
+            font-style: italic;
+        }
 
-    .meta-pill {
-      padding: 3px 9px;
-      border-radius: 999px;
-      border: 1px solid rgba(255,255,255,0.16);
-      background: rgba(0, 0, 0, 0.2);
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-    }
+        .icons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px 0;
+            font-size: 30px;
+        }
 
-    .meta-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 999px;
-      background: #4ade80;
-    }
+        .button {
+            background: linear-gradient(135deg, #FFB84D 0%, #FF8C69 50%, #FF6B9D 100%);
+            border: none;
+            border-radius: 50px;
+            padding: 18px 40px;
+            font-size: 18px;
+            font-weight: bold;
+            color: white;
+            cursor: pointer;
+            width: 100%;
+            box-shadow: 0 10px 30px rgba(255, 107, 157, 0.4);
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
 
-    button {
-      width: 100%;
-      border-radius: 999px;
-      border: none;
-      outline: none;
-      padding: 11px 16px;
-      font-size: 0.98rem;
-      font-weight: 600;
-      letter-spacing: 0.03em;
-      text-transform: uppercase;
-      cursor: pointer;
-      background: linear-gradient(135deg, #ffb347, #ff7b72);
-      color: #140b0b;
-      box-shadow:
-        0 12px 30px rgba(0,0,0,0.6),
-        0 0 0 1px rgba(255,255,255,0.1);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      transition: transform 0.1s ease, box-shadow 0.1s ease, filter 0.1s ease;
-    }
+        .button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 40px rgba(255, 107, 157, 0.5);
+        }
 
-    button:active {
-      transform: translateY(1px) scale(0.99);
-      box-shadow:
-        0 6px 18px rgba(0,0,0,0.8);
-      filter: brightness(0.96);
-    }
+        .button:active {
+            transform: translateY(0);
+        }
 
-    button span.icon {
-      font-size: 1.1rem;
-    }
+        .tip {
+            text-align: center;
+            color: #FF8C69;
+            font-size: 14px;
+            margin-top: 20px;
+            line-height: 1.5;
+        }
 
-    .hint {
-      margin-top: 8px;
-      font-size: 0.78rem;
-      color: var(--muted);
-      text-align: center;
-    }
-  </style>
+        .counter {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 14px;
+            color: #FFB84D;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .floating {
+            animation: float 3s ease-in-out infinite;
+        }
+    </style>
 </head>
 <body>
-  <main class="card">
-    <div class="card-inner">
-      <h1>
-        <span class="emoji">✨</span>
-        Побажання на вихідні
-      </h1>
-      <div class="subtitle">
-        Натисни кнопку — і нехай ШІ підкине тобі маленький настрій на ці вихідні 💫
-      </div>
+    <div class="card">
+        <!-- Sparkles -->
+        <div class="sparkle" style="top: 10%; left: 10%; animation-delay: 0s;"></div>
+        <div class="sparkle" style="top: 20%; right: 15%; animation-delay: 1s;"></div>
+        <div class="sparkle" style="bottom: 30%; left: 20%; animation-delay: 2s;"></div>
+        <div class="sparkle" style="bottom: 15%; right: 10%; animation-delay: 1.5s;"></div>
+        <div class="sparkle" style="top: 50%; left: 5%; animation-delay: 0.5s;"></div>
+        <div class="sparkle" style="top: 40%; right: 8%; animation-delay: 2.5s;"></div>
 
-      <div class="meta">
-        <div class="meta-pill">
-          <span class="meta-dot"></span>
-          <span id="dayLabel">Вихідний на підході</span>
+        <div class="header">
+            <h1>✨ Побажання на вихідні</h1>
+            <p>Натисни кнопку — і нехай AI підкине тобі маленький настрій на ці вихідні 💫</p>
         </div>
-        <span id="counterLabel">0 побажань показано</span>
-      </div>
 
-      <section class="wish-box" aria-live="polite">
-        <div class="wish-icon">🌙</div>
-        <div class="wish-text" id="wishText">
-          Натисни «Дай побажання» — і отримаєш ідею, як зробити ці вихідні трохи теплішими 💛
+        <div class="icons floating">
+            ☕ 🍂 💛 📖 ⭐
         </div>
-      </section>
 
-      <button id="generateBtn" type="button">
-        <span class="icon">🎲</span>
-        <span>Дай побажання</span>
-      </button>
+        <div class="wish-frame">
+            <div class="wish-text" id="wishText">
+                Тисни кнопку! Я підкину тобі щось тепле та осіннє для душі 🍂☕
+            </div>
+        </div>
 
-      <div class="hint">
-        Порада: збережи цю сторінку або додай до QR — нехай побажання ловляться одним сканом.
-      </div>
+        <button class="button" onclick="generateWish()">
+            🍂 Хочу побажання!
+        </button>
+
+        <div class="counter" id="counter">0 побажань показано</div>
+
+        <div class="tip">
+            Порада: збережи цю сторінку або додай до QR — нехай побажання ловляться одним сканом.
+        </div>
     </div>
-  </main>
 
-  <script>
-    // Масив простих, теплих побажань на вихідні
-    const wishes = [
-      "Нехай ці вихідні будуть без будильників, але з приємними сюрпризами ☕️",
-      "Бажаю тобі вихідних без відчуття провини за відпочинок — ти його заслуговуєш 💛",
-      "Нехай у твої плани на ці вихідні обовʼязково увійде сміх, теплий плед і щось смачне 🥐",
-      "Хай вихідні подарують розмову, після якої стане легше дихати 🌿",
-      "Бажаю знайти час на те, що живить, а не виснажує: сон, прогулянку, тишу, улюблених людей 🌙",
-      "Нехай у ці вихідні буде хоч одна маленька пригода, про яку захочеться згадати потім ✨",
-      "Хай твій головний дедлайн цих вихідних — вчасно вимкнути голову від робочих думок 🧠🚫",
-      "Бажаю тобі вихідних, після яких не потрібні ще вихідні 😄",
-      "Нехай ці два дні будуть не про «встигнути все», а про «дозволити собі бути» 💫",
-      "Хай всесвіт надішле тобі у вихідні один маленький, але дуже точний знак, що ти на правильному шляху ⭐️",
-      "Нехай у тебе знайдеться час просто посидіти з чашкою чогось теплого і ні про що не думати ☕️",
-      "Бажаю вихідних, де є баланс: трішки корисного, трішки ледачого й багато приємного ⚖️",
-      "Нехай ці вихідні повернуть тобі відчуття легкості й радості від дрібниць 🌈",
-      "Хай твоя субота буде про натхнення, а неділя — про спокій і заряд на новий тиждень 🔋",
-      "Бажаю тобі зустріти у ці вихідні момент, коли захочеться сказати: «Ось заради цього варто було відпочити» 🤍"
-    ];
+    <!-- Falling leaves -->
+    <div id="leavesContainer"></div>
 
-    const wishTextEl = document.getElementById("wishText");
-    const btn = document.getElementById("generateBtn");
-    const counterLabel = document.getElementById("counterLabel");
-    const dayLabel = document.getElementById("dayLabel");
+    <script>
+        const wishes = [
+            "Нехай ваші вихідні будуть теплішими за осінній плед і затишнішими за улюблену кав'ярню",
+            "Бажаю вам насолодитись кожним жовтим листочком і не поспішати нікуди",
+            "Нехай цих вихідних трапиться щось несподіване і приємне, як раптова сонячна погода у листопаді",
+            "Бажаю вам знайти ту саму ідеальну калюжу, в яку так хочеться стрибнути",
+            "Нехай ваші вихідні пахнуть корицею, яблуками і новими пригодами",
+            "Бажаю вам зловити момент, коли світло падає якраз так, що хочеться його сфотографувати",
+            "Нехай ваш настрій буде яскравішим за осіннє листя у парку",
+            "Бажаю вам випити ту саму ідеальну каву, від якої стає тепло всередині",
+            "Нехай цих вихідних ви зробите щось спонтанне і трохи божевільне (у хорошому сенсі)",
+            "Бажаю вам знайти свій улюблений осінній ритуал - чи то прогулянка, чи то читання, чи то просто мріяння",
+            "Нехай ваші вихідні будуть сповнені сміху, який аж до сліз",
+            "Бажаю вам натрапити на ту пісню, яка ідеально підходить під осінній настрій",
+            "Нехай хтось несподівано порадує вас чимось приємним і щирим",
+            "Бажаю вам побачити щось красиве, що змусить на мить зупинитись і всміхнутись",
+            "Нехай ці вихідні подарують вам історію, яку захочеться переказувати друзям",
+            "Бажаю вам відчути той кайф від простих речей - теплого светра, гарячого чаю, м'якого пледа",
+            "Нехай цих вихідних ви зустрінете когось цікавого або перезустрінете когось рідного",
+            "Бажаю вам тієї особливої осінньої магії, коли все здається трохи казковим",
+            "Нехай ваші вихідні будуть сповнені маленьких радощів, які роблять життя смачнішим",
+            "Бажаю вам закохатись у цю осінь так, щоб не хотілось, аби вона закінчувалась"
+        ];
 
-    let shownCount = 0;
-    let lastIndex = -1;
+        let count = 0;
+        let usedWishes = [];
 
-    function updateDayLabel() {
-      const today = new Date();
-      const day = today.getDay(); // 0 = неділя, 6 = субота
+        function generateWish() {
+            if (usedWishes.length === wishes.length) {
+                usedWishes = [];
+            }
 
-      if (day === 5) {
-        dayLabel.textContent = "Пʼятниця — час планувати відпочинок 🎉";
-      } else if (day === 6 || day === 0) {
-        dayLabel.textContent = "Вихідні вже тут 😌";
-      } else {
-        dayLabel.textContent = "Можна планувати маленьку нагороду на вихідні 🌟";
-      }
-    }
+            let availableWishes = wishes.filter((_, index) => !usedWishes.includes(index));
+            let randomIndex = Math.floor(Math.random() * availableWishes.length);
+            let selectedWish = availableWishes[randomIndex];
+            let originalIndex = wishes.indexOf(selectedWish);
+            
+            usedWishes.push(originalIndex);
+            
+            document.getElementById('wishText').style.opacity = '0';
+            
+            setTimeout(() => {
+                document.getElementById('wishText').textContent = selectedWish;
+                document.getElementById('wishText').style.transition = 'opacity 0.5s';
+                document.getElementById('wishText').style.opacity = '1';
+                count++;
+                document.getElementById('counter').textContent = count + ' побажань показано';
+            }, 300);
+        }
 
-    function getRandomWishIndex() {
-      if (wishes.length === 1) return 0;
-      let idx;
-      do {
-        idx = Math.floor(Math.random() * wishes.length);
-      } while (idx === lastIndex);
-      lastIndex = idx;
-      return idx;
-    }
+        // Create falling leaves
+        function createLeaf() {
+            const leaf = document.createElement('div');
+            leaf.className = 'leaf';
+            leaf.textContent = ['🍂', '🍁', '🍃'][Math.floor(Math.random() * 3)];
+            leaf.style.left = Math.random() * 100 + '%';
+            leaf.style.animationDuration = (Math.random() * 3 + 5) + 's';
+            leaf.style.animationDelay = Math.random() * 5 + 's';
+            document.body.appendChild(leaf);
+            
+            setTimeout(() => {
+                leaf.remove();
+            }, 10000);
+        }
 
-    function showRandomWish() {
-      const idx = getRandomWishIndex();
-      const wish = wishes[idx];
-      wishTextEl.textContent = wish;
-      shownCount += 1;
-      counterLabel.textContent = `${shownCount} побажанн${shownCount === 1 ? "я" : "ь"} показано`;
-    }
-
-    btn.addEventListener("click", showRandomWish);
-    updateDayLabel();
-  </script>
+        // Create leaves periodically
+        setInterval(createLeaf, 2000);
+        
+        // Create initial leaves
+        for (let i = 0; i < 5; i++) {
+            setTimeout(createLeaf, i * 400);
+        }
+    </script>
 </body>
 </html>
