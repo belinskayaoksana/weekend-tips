@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="uk">
 <head>
-<!-- GOOGLE ANALYTICS -->
+    <!-- GOOGLE ANALYTICS -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-H8C3P9HN4S"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -9,6 +9,7 @@
       gtag('js', new Date());
       gtag('config', 'G-H8C3P9HN4S');
     </script>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Побажання на вихідні</title>
@@ -35,35 +36,10 @@
             width: 100%;
             background: rgba(255, 255, 255, 0.95);
             border-radius: 30px;
-            padding: 30px 24px 40px;
+            padding: 30px 24px 32px;
             box-shadow: 0 20px 60px rgba(255, 140, 105, 0.3);
             position: relative;
             overflow: hidden;
-        }
-
-        /* Блок з ілюстрацією */
-        .illustration {
-            width: 100%;
-            border-radius: 24px;
-            overflow: hidden;
-            margin-bottom: 20px;
-            box-shadow: 0 10px 30px rgba(255, 140, 105, 0.35);
-            position: relative;
-        }
-
-        .illustration img {
-            display: block;
-            width: 100%;
-            height: auto;
-        }
-
-        /* Легке сяйво над картинкою */
-        .illustration::after {
-            content: "";
-            position: absolute;
-            inset: 0;
-            background: radial-gradient(circle at top, rgba(255, 255, 255, 0.15), transparent 55%);
-            pointer-events: none;
         }
 
         .sparkle {
@@ -107,7 +83,7 @@
 
         .header {
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 18px;
         }
 
         .header h1 {
@@ -123,68 +99,112 @@
             line-height: 1.6;
         }
 
+        .icons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 10px 0 18px;
+            font-size: 26px;
+        }
+
         .wish-frame {
             background: linear-gradient(135deg, #FFF4E6 0%, #FFE4D6 100%);
             border-radius: 20px;
-            padding: 24px;
-            margin: 24px 0 20px;
+            padding: 20px 16px;
+            margin: 10px 0 16px;
             box-shadow: inset 0 2px 10px rgba(255, 140, 105, 0.1);
             border: 3px solid #FFB84D;
             position: relative;
         }
 
-        .wish-text {
-            font-size: 18px;
-            color: #8B4513;
-            line-height: 1.8;
-            text-align: center;
-            font-style: italic;
-        }
-
-        .icons {
+        /* Печиво бажань */
+        .cookie-wrapper {
+            position: relative;
             display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin: 10px 0 15px;
-            font-size: 28px;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+            min-height: 140px;
         }
 
-        .button {
-            background: linear-gradient(135deg, #FFB84D 0%, #FF8C69 50%, #FF6B9D 100%);
-            border: none;
-            border-radius: 50px;
-            padding: 16px 32px;
-            font-size: 18px;
-            font-weight: bold;
-            color: white;
+        .cookie {
+            position: relative;
+            width: 120px;
+            height: 120px;
             cursor: pointer;
-            width: 100%;
-            box-shadow: 0 10px 30px rgba(255, 107, 157, 0.4);
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            transition: transform 0.2s ease;
         }
 
-        .button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 15px 40px rgba(255, 107, 157, 0.5);
+        .cookie:hover {
+            transform: scale(1.06);
         }
 
-        .button:active {
+        .cookie-half {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle at 30% 30%, #FFE0B2, #FFB84D);
+            border-radius: 55% 70% 45% 60%;
+            box-shadow: 0 6px 14px rgba(139, 69, 19, 0.3);
+            transition: transform 0.5s ease, opacity 0.5s ease;
+        }
+
+        .cookie-half.left {
+            left: 18px;
+            transform-origin: right center;
+        }
+
+        .cookie-half.right {
+            right: 18px;
+            transform-origin: left center;
+        }
+
+        /* Стан “відкрито” — половинки розʼїжджаються */
+        .cookie-wrapper.open .cookie-half.left {
+            transform: translateX(-45px) rotate(-18deg);
+        }
+
+        .cookie-wrapper.open .cookie-half.right {
+            transform: translateX(45px) rotate(18deg);
+        }
+
+        /* Смуга-папірець з побажанням */
+        .fortune {
+            opacity: 0;
+            transform: translateY(8px);
+            background: #FFF7E8;
+            border-radius: 999px;
+            padding: 10px 18px;
+            box-shadow: 0 4px 16px rgba(255, 184, 77, 0.35);
+            max-width: 100%;
+            transition: opacity 0.5s ease 0.2s, transform 0.5s ease 0.2s;
+        }
+
+        .cookie-wrapper.open .fortune {
+            opacity: 1;
             transform: translateY(0);
+        }
+
+        .fortune .wish-text {
+            font-size: 16px;
+            line-height: 1.6;
+            font-style: italic;
+            color: #8B4513;
+            text-align: center;
+            display: inline-block;
         }
 
         .tip {
             text-align: center;
             color: #FF8C69;
             font-size: 14px;
-            margin-top: 18px;
+            margin-top: 14px;
             line-height: 1.5;
         }
 
         .counter {
             text-align: center;
-            margin-top: 12px;
+            margin-top: 10px;
             font-size: 14px;
             color: #FFB84D;
         }
@@ -196,6 +216,16 @@
 
         .floating {
             animation: float 3s ease-in-out infinite;
+        }
+
+        @media (max-width: 480px) {
+            .card {
+                padding: 24px 18px 28px;
+            }
+
+            .fortune .wish-text {
+                font-size: 15px;
+            }
         }
     </style>
 </head>
@@ -211,7 +241,7 @@
 
         <div class="header">
             <h1>✨ Побажання на вихідні</h1>
-            <p>Натисни кнопку — і нехай AI підкине тобі маленький настрій на ці вихідні 💫</p>
+            <p>Натисни на печиво — і нехай воно підкине тобі маленьке тепле побажання 💫</p>
         </div>
 
         <div class="icons floating">
@@ -219,19 +249,23 @@
         </div>
 
         <div class="wish-frame">
-            <div class="wish-text" id="wishText">
-                Тисни кнопку! Я підкину тобі щось тепле та осіннє для душі 🍂☕
+            <div class="cookie-wrapper open" id="cookieWrapper" onclick="generateWish()">
+                <div class="cookie">
+                    <div class="cookie-half left"></div>
+                    <div class="cookie-half right"></div>
+                </div>
+                <div class="fortune">
+                    <span class="wish-text" id="wishText">
+                        Торкнись печива, щоб отримати своє перше побажання 🍪
+                    </span>
+                </div>
             </div>
         </div>
-
-        <button class="button" onclick="generateWish()">
-            🍂 Хочу побажання!
-        </button>
 
         <div class="counter" id="counter">0 побажань показано</div>
 
         <div class="tip">
-            Порада: збережи цю сторінку або додай до QR — нехай побажання ловляться одним сканом.
+            Порада: додай цю сторінку в закладки або у QR — нехай побажання ловляться одним дотиком.
         </div>
     </div>
 
@@ -270,6 +304,9 @@
                 usedWishes = [];
             }
 
+            const wrapper = document.getElementById('cookieWrapper');
+            const wishEl = document.getElementById('wishText');
+
             const availableWishes = wishes.filter((_, index) => !usedWishes.includes(index));
             const randomIndex = Math.floor(Math.random() * availableWishes.length);
             const selectedWish = availableWishes[randomIndex];
@@ -277,19 +314,23 @@
 
             usedWishes.push(originalIndex);
 
-            const wishEl = document.getElementById('wishText');
+            // Закриваємо печиво перед новим бажанням
+            wrapper.classList.remove('open');
             wishEl.style.opacity = '0';
 
             setTimeout(() => {
                 wishEl.textContent = selectedWish;
-                wishEl.style.transition = 'opacity 0.5s';
-                wishEl.style.opacity = '1';
                 count++;
                 document.getElementById('counter').textContent = count + ' побажань показано';
-            }, 300);
+
+                // Відкриваємо печиво знову
+                wrapper.classList.add('open');
+                wishEl.style.transition = 'opacity 0.4s ease';
+                wishEl.style.opacity = '1';
+            }, 200);
         }
 
-        // Create falling leaves
+        // Створення листочків
         function createLeaf() {
             const leaf = document.createElement('div');
             leaf.className = 'leaf';
@@ -304,10 +345,8 @@
             }, 10000);
         }
 
-        // Create leaves periodically
         setInterval(createLeaf, 2000);
 
-        // Create initial leaves
         for (let i = 0; i < 5; i++) {
             setTimeout(createLeaf, i * 400);
         }
