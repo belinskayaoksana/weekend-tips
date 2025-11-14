@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Побажання на вихідні</title>
+  <style>
+    :root {
+      color-scheme: light dark;
+      --bg: #0b1020;
+      --card: #161b2b;
+      --accent: #ffb347;
+      --accent-soft: rgba(255, 179, 71, 0.12);
+      --text: #ffffff;
+      --muted: #a6abc7;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #232a4a 0, #050814 55%, #02030a 100%);
+      color: var(--text);
+    }
+
+    .card {
+      width: min(460px, 94vw);
+      background: linear-gradient(145deg, rgba(255,255,255,0.04), rgba(0,0,0,0.4));
+      border-radius: 24px;
+      padding: 24px 22px 20px;
+      box-shadow:
+        0 22px 60px rgba(0,0,0,0.8),
+        0 0 0 1px rgba(255,255,255,0.05);
+      backdrop-filter: blur(18px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background:
+        radial-gradient(circle at 0% 10%, rgba(255, 255, 255, 0.14), transparent 55%),
+        radial-gradient(circle at 100% 100%, rgba(255, 140, 0, 0.18), transparent 60%);
+      opacity: 0.45;
+      pointer-events: none;
+      mix-blend-mode: screen;
+    }
+
+    .card-inner {
+      position: relative;
+      z-index: 1;
+    }
+
+    h1 {
+      font-size: 1.4rem;
+      margin: 0 0 8px;
+      letter-spacing: 0.03em;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    h1 span.emoji {
+      font-size: 1.5rem;
+      filter: drop-shadow(0 0 6px rgba(0,0,0,0.6));
+    }
+
+    .subtitle {
+      font-size: 0.9rem;
+      color: var(--muted);
+      margin-bottom: 18px;
+    }
+
+    .wish-box {
+      margin: 0 0 18px;
+      padding: 14px 14px 14px 12px;
+      border-radius: 16px;
+      background: rgba(2, 5, 25, 0.7);
+      border: 1px solid rgba(255,255,255,0.08);
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      min-height: 72px;
+    }
+
+    .wish-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      flex-shrink: 0;
+    }
+
+    .wish-text {
+      font-size: 1.02rem;
+      line-height: 1.45;
+    }
+
+    .meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+
+    .meta-pill {
+      padding: 3px 9px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.16);
+      background: rgba(0, 0, 0, 0.2);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .meta-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: #4ade80;
+    }
+
+    button {
+      width: 100%;
+      border-radius: 999px;
+      border: none;
+      outline: none;
+      padding: 11px 16px;
+      font-size: 0.98rem;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      cursor: pointer;
+      background: linear-gradient(135deg, #ffb347, #ff7b72);
+      color: #140b0b;
+      box-shadow:
+        0 12px 30px rgba(0,0,0,0.6),
+        0 0 0 1px rgba(255,255,255,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: transform 0.1s ease, box-shadow 0.1s ease, filter 0.1s ease;
+    }
+
+    button:active {
+      transform: translateY(1px) scale(0.99);
+      box-shadow:
+        0 6px 18px rgba(0,0,0,0.8);
+      filter: brightness(0.96);
+    }
+
+    button span.icon {
+      font-size: 1.1rem;
+    }
+
+    .hint {
+      margin-top: 8px;
+      font-size: 0.78rem;
+      color: var(--muted);
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <div class="card-inner">
+      <h1>
+        <span class="emoji">✨</span>
+        Побажання на вихідні
+      </h1>
+      <div class="subtitle">
+        Натисни кнопку — і нехай ШІ підкине тобі маленький настрій на ці вихідні 💫
+      </div>
+
+      <div class="meta">
+        <div class="meta-pill">
+          <span class="meta-dot"></span>
+          <span id="dayLabel">Вихідний на підході</span>
+        </div>
+        <span id="counterLabel">0 побажань показано</span>
+      </div>
+
+      <section class="wish-box" aria-live="polite">
+        <div class="wish-icon">🌙</div>
+        <div class="wish-text" id="wishText">
+          Натисни «Дай побажання» — і отримаєш ідею, як зробити ці вихідні трохи теплішими 💛
+        </div>
+      </section>
+
+      <button id="generateBtn" type="button">
+        <span class="icon">🎲</span>
+        <span>Дай побажання</span>
+      </button>
+
+      <div class="hint">
+        Порада: збережи цю сторінку або додай до QR — нехай побажання ловляться одним сканом.
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // Масив простих, теплих побажань на вихідні
+    const wishes = [
+      "Нехай ці вихідні будуть без будильників, але з приємними сюрпризами ☕️",
+      "Бажаю тобі вихідних без відчуття провини за відпочинок — ти його заслуговуєш 💛",
+      "Нехай у твої плани на ці вихідні обовʼязково увійде сміх, теплий плед і щось смачне 🥐",
+      "Хай вихідні подарують розмову, після якої стане легше дихати 🌿",
+      "Бажаю знайти час на те, що живить, а не виснажує: сон, прогулянку, тишу, улюблених людей 🌙",
+      "Нехай у ці вихідні буде хоч одна маленька пригода, про яку захочеться згадати потім ✨",
+      "Хай твій головний дедлайн цих вихідних — вчасно вимкнути голову від робочих думок 🧠🚫",
+      "Бажаю тобі вихідних, після яких не потрібні ще вихідні 😄",
+      "Нехай ці два дні будуть не про «встигнути все», а про «дозволити собі бути» 💫",
+      "Хай всесвіт надішле тобі у вихідні один маленький, але дуже точний знак, що ти на правильному шляху ⭐️",
+      "Нехай у тебе знайдеться час просто посидіти з чашкою чогось теплого і ні про що не думати ☕️",
+      "Бажаю вихідних, де є баланс: трішки корисного, трішки ледачого й багато приємного ⚖️",
+      "Нехай ці вихідні повернуть тобі відчуття легкості й радості від дрібниць 🌈",
+      "Хай твоя субота буде про натхнення, а неділя — про спокій і заряд на новий тиждень 🔋",
+      "Бажаю тобі зустріти у ці вихідні момент, коли захочеться сказати: «Ось заради цього варто було відпочити» 🤍"
+    ];
+
+    const wishTextEl = document.getElementById("wishText");
+    const btn = document.getElementById("generateBtn");
+    const counterLabel = document.getElementById("counterLabel");
+    const dayLabel = document.getElementById("dayLabel");
+
+    let shownCount = 0;
+    let lastIndex = -1;
+
+    function updateDayLabel() {
+      const today = new Date();
+      const day = today.getDay(); // 0 = неділя, 6 = субота
+
+      if (day === 5) {
+        dayLabel.textContent = "Пʼятниця — час планувати відпочинок 🎉";
+      } else if (day === 6 || day === 0) {
+        dayLabel.textContent = "Вихідні вже тут 😌";
+      } else {
+        dayLabel.textContent = "Можна планувати маленьку нагороду на вихідні 🌟";
+      }
+    }
+
+    function getRandomWishIndex() {
+      if (wishes.length === 1) return 0;
+      let idx;
+      do {
+        idx = Math.floor(Math.random() * wishes.length);
+      } while (idx === lastIndex);
+      lastIndex = idx;
+      return idx;
+    }
+
+    function showRandomWish() {
+      const idx = getRandomWishIndex();
+      const wish = wishes[idx];
+      wishTextEl.textContent = wish;
+      shownCount += 1;
+      counterLabel.textContent = `${shownCount} побажанн${shownCount === 1 ? "я" : "ь"} показано`;
+    }
+
+    btn.addEventListener("click", showRandomWish);
+    updateDayLabel();
+  </script>
+</body>
+</html>
