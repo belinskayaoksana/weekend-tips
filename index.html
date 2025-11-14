@@ -117,61 +117,94 @@
             position: relative;
         }
 
-        /* Печиво бажань */
+        /* Печиво бажань — оновлений дизайн */
         .cookie-wrapper {
             position: relative;
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 16px;
-            min-height: 140px;
+            min-height: 160px;
         }
 
         .cookie {
             position: relative;
-            width: 120px;
-            height: 120px;
+            width: 140px;
+            height: 140px;
             cursor: pointer;
             transition: transform 0.2s ease;
         }
 
         .cookie:hover {
-            transform: scale(1.06);
+            transform: scale(1.04);
         }
 
+        /* Дві половинки круглого печива */
         .cookie-half {
             position: absolute;
-            width: 100px;
-            height: 100px;
-            background: radial-gradient(circle at 30% 30%, #FFE0B2, #FFB84D);
-            border-radius: 55% 70% 45% 60%;
-            box-shadow: 0 6px 14px rgba(139, 69, 19, 0.3);
+            width: 140px;
+            height: 140px;
+            background: radial-gradient(circle at 30% 30%, #FFEAC7, #FFB84D 70%, #E89B3D 100%);
+            border-radius: 50%;
+            box-shadow: 0 6px 16px rgba(139, 69, 19, 0.35);
             transition: transform 0.5s ease, opacity 0.5s ease;
         }
 
+        /* Ліва половинка — ліва півсфера */
         .cookie-half.left {
-            left: 18px;
+            left: 0;
+            clip-path: polygon(0 0, 50% 0, 50% 100%, 0 100%);
             transform-origin: right center;
         }
 
+        /* Права половинка — права півсфера */
         .cookie-half.right {
-            right: 18px;
+            right: 0;
+            clip-path: polygon(50% 0, 100% 0, 100% 100%, 50% 100%);
             transform-origin: left center;
         }
 
-        /* Стан “відкрито” — половинки розʼїжджаються */
+        /* Стан “закрито” — половинки разом */
+        .cookie-wrapper:not(.open) .cookie-half.left,
+        .cookie-wrapper:not(.open) .cookie-half.right {
+            transform: translateX(0) rotate(0deg);
+        }
+
+        /* Стан “відкрито” — половинки розʼїжджаються як розламане печиво */
         .cookie-wrapper.open .cookie-half.left {
-            transform: translateX(-45px) rotate(-18deg);
+            transform: translateX(-24px) rotate(-10deg);
         }
 
         .cookie-wrapper.open .cookie-half.right {
-            transform: translateX(45px) rotate(18deg);
+            transform: translateX(24px) rotate(10deg);
+        }
+
+        /* Тріщина по центру */
+        .cookie::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 4px;
+            height: 70px;
+            background: rgba(153, 90, 35, 0.7);
+            transform: translate(-50%, -50%) scaleY(0);
+            border-radius: 999px;
+            box-shadow: 0 0 4px rgba(153, 90, 35, 0.6);
+            opacity: 0;
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+
+        /* Коли печиво “зламане” — тріщина видима */
+        .cookie-wrapper.open .cookie::after {
+            opacity: 1;
+            transform: translate(-50%, -50%) scaleY(1);
         }
 
         /* Смуга-папірець з побажанням */
         .fortune {
             opacity: 0;
-            transform: translateY(8px);
+            transform: translateY(10px);
             background: #FFF7E8;
             border-radius: 999px;
             padding: 10px 18px;
