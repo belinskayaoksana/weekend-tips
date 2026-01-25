@@ -1,385 +1,504 @@
 <!DOCTYPE html>
 <html lang="uk">
 <head>
-    <!-- GOOGLE ANALYTICS -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-H8C3P9HN4S"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-H8C3P9HN4S');
-    </script>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Побажання на вихідні</title>
+    <title>Your Sun | Онлайн-студія ароматів</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap');
+        
+        :root {
+            --brand-gold: #d4af37;
+            --brand-bg: #fdfcfb;
+            --brand-dark: #1a1a1a;
         }
 
         body {
-            font-family: 'Georgia', serif;
-            overflow-x: hidden;
-            background: linear-gradient(135deg, #FFF4E6 0%, #FFB84D 50%, #FF8C69 100%);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--brand-bg);
+            color: var(--brand-dark);
+        }
+        
+        h1, h2, h3, .serif {
+            font-family: 'Playfair Display', serif;
         }
 
-        .card {
-            max-width: 500px;
-            width: 100%;
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 30px;
-            padding: 30px 24px 32px;
-            box-shadow: 0 20px 60px rgba(255, 140, 105, 0.3);
+        .fade-in {
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .slogan-accent {
+            @apply text-xl md:text-2xl italic text-gray-400 font-light leading-relaxed;
+        }
+
+        .btn-primary {
+            @apply bg-[#1a1a1a] text-white px-10 py-4 rounded-full hover:bg-black transition-all duration-300 text-xs uppercase tracking-[0.2em];
+        }
+
+        .btn-outline {
+            @apply border border-[#1a1a1a] text-[#1a1a1a] px-10 py-4 rounded-full hover:bg-[#1a1a1a] hover:text-white transition-all duration-300 text-xs uppercase tracking-[0.2em];
+        }
+
+        .product-card img {
+            transition: transform 0.5s ease;
+        }
+        .product-card:hover img {
+            transform: scale(1.05);
+        }
+
+        .video-container {
             position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
             overflow: hidden;
+            border-radius: 2rem;
         }
-
-        .sparkle {
+        .video-container iframe, .video-container video {
             position: absolute;
-            width: 4px;
-            height: 4px;
-            background: #FFB84D;
-            border-radius: 50%;
-            animation: sparkle 3s infinite;
-            box-shadow: 0 0 10px #FFB84D;
-        }
-
-        @keyframes sparkle {
-            0%, 100% { opacity: 0; transform: scale(0); }
-            50% { opacity: 1; transform: scale(1); }
-        }
-
-        .leaf {
-            position: absolute;
-            font-size: 24px;
-            animation: fall linear infinite;
-            opacity: 0.7;
-        }
-
-        @keyframes fall {
-            0% {
-                transform: translateY(-100px) rotate(0deg);
-                opacity: 0;
-            }
-            10% {
-                opacity: 0.7;
-            }
-            90% {
-                opacity: 0.7;
-            }
-            100% {
-                transform: translateY(100vh) rotate(360deg);
-                opacity: 0;
-            }
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 18px;
-        }
-
-        .header h1 {
-            font-size: 26px;
-            color: #FF6B9D;
-            margin-bottom: 8px;
-            text-shadow: 2px 2px 4px rgba(255, 107, 157, 0.2);
-        }
-
-        .header p {
-            font-size: 15px;
-            color: #FF8C69;
-            line-height: 1.6;
-        }
-
-        .icons {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin: 10px 0 18px;
-            font-size: 26px;
-        }
-
-        .wish-frame {
-            background: linear-gradient(135deg, #FFF4E6 0%, #FFE4D6 100%);
-            border-radius: 20px;
-            padding: 20px 16px;
-            margin: 10px 0 16px;
-            box-shadow: inset 0 2px 10px rgba(255, 140, 105, 0.1);
-            border: 3px solid #FFB84D;
-            position: relative;
-        }
-
-        /* Печиво бажань — стилізація під реальне fortune cookie */
-        .cookie-wrapper {
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 18px;
-            min-height: 170px;
-        }
-
-        .cookie {
-            position: relative;
-            width: 130px;
-            height: 90px;
-            cursor: pointer;
-            transition: transform 0.2s ease;
-        }
-
-        .cookie:hover {
-            transform: translateY(-2px);
-        }
-
-        /* База печива */
-        .cookie-body {
-            position: absolute;
-            inset: 0;
-            margin: auto;
-            width: 120px;
-            height: 80px;
-            background: radial-gradient(circle at 30% 20%, #FFEAC7, #F4B766 65%, #E2963B 100%);
-            border-radius: 60% 60% 70% 70%;
-            box-shadow: 0 8px 18px rgba(139, 69, 19, 0.35);
-        }
-
-        /* Дві складки, щоб виглядало як зігнуте печиво */
-        .cookie-body::before,
-        .cookie-body::after {
-            content: "";
-            position: absolute;
-            width: 70px;
-            height: 70px;
-            background: radial-gradient(circle at 30% 20%, #FFEAC7, #F4B766 65%, #E2963B 100%);
-            border-radius: 60% 60% 60% 60%;
-            top: 5px;
-            box-shadow: 0 6px 14px rgba(139, 69, 19, 0.28);
-            transition: transform 0.45s ease;
-        }
-
-        .cookie-body::before {
-            left: -8px;
-            transform: rotate(-22deg);
-        }
-
-        .cookie-body::after {
-            right: -8px;
-            transform: rotate(22deg);
-        }
-
-        /* Імітація "розкриття" */
-        .cookie-wrapper.open .cookie-body::before {
-            transform: translateX(-6px) rotate(-32deg);
-        }
-
-        .cookie-wrapper.open .cookie-body::after {
-            transform: translateX(6px) rotate(32deg);
-        }
-
-        /* Легка тінь усередині для ефекту поглиблення */
-        .cookie-inner-shadow {
-            position: absolute;
-            inset: 0;
-            margin: auto;
-            width: 70px;
-            height: 40px;
-            top: 24px;
-            background: radial-gradient(ellipse at center, rgba(180, 104, 40, 0.35), transparent 70%);
-            border-radius: 50%;
-            opacity: 0.9;
-        }
-
-        /* Папірець з побажанням */
-        .fortune {
-            opacity: 0;
-            transform: translateY(10px);
-            background: #FFFDF7;
-            border-radius: 999px;
-            padding: 10px 18px;
-            box-shadow: 0 4px 16px rgba(255, 184, 77, 0.35);
-            max-width: 100%;
-            transition: opacity 0.5s ease 0.15s, transform 0.5s ease 0.15s;
-        }
-
-        .cookie-wrapper.open .fortune {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .fortune .wish-text {
-            font-size: 16px;
-            line-height: 1.6;
-            font-style: italic;
-            color: #8B4513;
-            text-align: center;
-            display: inline-block;
-        }
-
-        .tip {
-            text-align: center;
-            color: #FF8C69;
-            font-size: 14px;
-            margin-top: 14px;
-            line-height: 1.5;
-        }
-
-        .counter {
-            text-align: center;
-            margin-top: 10px;
-            font-size: 14px;
-            color: #FFB84D;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-        }
-
-        .floating {
-            animation: float 3s ease-in-out infinite;
-        }
-
-        @media (max-width: 480px) {
-            .card {
-                padding: 24px 18px 28px;
-            }
-
-            .fortune .wish-text {
-                font-size: 15px;
-            }
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
     </style>
 </head>
 <body>
-    <div class="card">
-        <!-- Sparkles -->
-        <div class="sparkle" style="top: 10%; left: 10%; animation-delay: 0s;"></div>
-        <div class="sparkle" style="top: 20%; right: 15%; animation-delay: 1s;"></div>
-        <div class="sparkle" style="bottom: 30%; left: 20%; animation-delay: 2s;"></div>
-        <div class="sparkle" style="bottom: 15%; right: 10%; animation-delay: 1.5s;"></div>
-        <div class="sparkle" style="top: 50%; left: 5%; animation-delay: 0.5s;"></div>
-        <div class="sparkle" style="top: 40%; right: 8%; animation-delay: 2.5s;"></div>
 
-        <div class="header">
-            <h1>✨ Побажання на вихідні</h1>
-            <p>Натисни на печиво — і нехай воно підкине тобі маленьке тепле побажання 💫</p>
-        </div>
-
-        <div class="icons floating">
-            ☕ 🍂 💛 📖 ⭐
-        </div>
-
-        <div class="wish-frame">
-            <div class="cookie-wrapper open" id="cookieWrapper" onclick="generateWish()">
-                <div class="cookie">
-                    <div class="cookie-body">
-                        <div class="cookie-inner-shadow"></div>
-                    </div>
+<div id="app">
+    <!-- Header -->
+    <nav class="sticky top-0 z-50 bg-white/90 backdrop-blur-lg border-b border-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-24 items-center">
+                <div class="flex-shrink-0 cursor-pointer" onclick="navigateTo('home')">
+                    <span class="text-2xl tracking-[0.3em] font-light uppercase">Your <span class="font-bold">Sun</span></span>
                 </div>
-                <div class="fortune">
-                    <span class="wish-text" id="wishText">
-                        Торкнись печива, щоб отримати своє перше побажання 🍪
-                    </span>
+                
+                <div class="hidden md:flex space-x-10 text-[10px] font-bold uppercase tracking-[0.2em]">
+                    <button onclick="navigateTo('home')" class="hover:text-gray-400 transition-colors">Головна</button>
+                    <div class="relative group">
+                        <button class="hover:text-gray-400 transition-colors">Аромати <i class="fa-solid fa-chevron-down text-[8px] ml-1"></i></button>
+                        <div class="absolute hidden group-hover:block w-48 bg-white shadow-2xl mt-4 py-4 border border-gray-50">
+                            <button onclick="navigateTo('self')" class="block px-6 py-2 hover:bg-gray-50 w-full text-left">Для себе</button>
+                            <button onclick="navigateTo('home-scents')" class="block px-6 py-2 hover:bg-gray-50 w-full text-left">Для дому</button>
+                        </div>
+                    </div>
+                    <button onclick="navigateTo('sets')" class="hover:text-gray-400 transition-colors">Сети</button>
+                    <button onclick="navigateTo('how-it-works')" class="hover:text-gray-400 transition-colors">Як це працює</button>
+                    <button onclick="navigateTo('about')" class="hover:text-gray-400 transition-colors">Про нас</button>
+                    <button onclick="navigateTo('faq')" class="hover:text-gray-400 transition-colors">FAQ</button>
+                    <button onclick="navigateTo('contacts')" class="hover:text-gray-400 transition-colors">Контакти</button>
+                </div>
+
+                <div class="flex items-center space-x-5">
+                    <button class="text-sm"><i class="fa-solid fa-magnifying-glass"></i></button>
+                    <button class="text-sm relative">
+                        <i class="fa-solid fa-bag-shopping"></i>
+                        <span class="absolute -top-2 -right-2 bg-black text-white text-[8px] w-4 h-4 rounded-full flex items-center justify-center">0</span>
+                    </button>
+                    <button id="mobile-menu-button" class="md:hidden text-xl">
+                        <i class="fa-solid fa-bars-staggered"></i>
+                    </button>
                 </div>
             </div>
         </div>
+    </nav>
 
-        <div class="counter" id="counter">0 побажань показано</div>
+    <!-- Content Area -->
+    <main id="content">
+        <!-- Home Page Rendered Below -->
+    </main>
 
-        <div class="tip">
-            Порада: додай цю сторінку в закладки або у QR — нехай побажання ловляться одним дотиком.
+    <!-- Footer -->
+    <footer class="bg-white pt-24 pb-12 border-t border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 grid md:grid-cols-4 gap-16 mb-20">
+            <div class="col-span-1 md:col-span-1">
+                <span class="text-xl tracking-[0.3em] font-light uppercase">Your <span class="font-bold">Sun</span></span>
+                <p class="mt-6 text-gray-400 text-sm leading-relaxed font-light italic">
+                    "Your Sun не каже: «Купи цей аромат» <br>Your Sun каже: «Давай знайдемо твій»"
+                </p>
+            </div>
+            <div>
+                <h4 class="text-[10px] font-bold uppercase tracking-widest mb-8">Службові сторінки</h4>
+                <ul class="space-y-4 text-sm text-gray-500 font-light">
+                    <li><button onclick="navigateTo('delivery')" class="hover:text-black">Доставка та оплата</button></li>
+                    <li><button onclick="navigateTo('returns')" class="hover:text-black">Повернення та обмін</button></li>
+                    <li><button class="hover:text-black">Публічна оферта</button></li>
+                    <li><button class="hover:text-black">Політика конфіденційності</button></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-[10px] font-bold uppercase tracking-widest mb-8">Студія</h4>
+                <ul class="space-y-4 text-sm text-gray-500 font-light">
+                    <li><button onclick="navigateTo('about')" class="hover:text-black">Історія бренду</button></li>
+                    <li><button onclick="navigateTo('sets')" class="hover:text-black">Подарункові набори</button></li>
+                    <li><button onclick="navigateTo('contacts')" class="hover:text-black">Зв'язатися з нами</button></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-[10px] font-bold uppercase tracking-widest mb-8">Соціальні мережі</h4>
+                <div class="flex space-x-6">
+                    <a href="#" class="text-gray-400 hover:text-black transition-colors"><i class="fa-brands fa-instagram text-xl"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-black transition-colors"><i class="fa-brands fa-telegram text-xl"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-black transition-colors"><i class="fa-brands fa-whatsapp text-xl"></i></a>
+                </div>
+            </div>
         </div>
-    </div>
+        <div class="text-center text-[10px] uppercase tracking-widest text-gray-300">
+            &copy; 2024 Your Sun Studio. Made with love for your senses.
+        </div>
+    </footer>
+</div>
 
-    <!-- Falling leaves -->
-    <div id="leavesContainer"></div>
+<script>
+    const content = document.getElementById('content');
 
-    <script>
-        const wishes = [
-            "Зроби маленьку прогулянку сьогодні — вона точно піде на користь 🍂",
-            "Погуляй парком і просто послухай, як шелестить листя 🌳",
-            "Проведи трохи часу з сім’єю — навіть пів годинки має силу 💛",
-            "Завари теплий напій і дозволь собі кілька хвилин тиші ☕",
-            "Вийди на прогулянку перед заходом сонця — дуже заспокоює 🌅",
-            "Пограй у настільну чи телефонну гру — трошки радості не завадить 🎲",
-            "Зроби щось просте й тепле: музика, чай, розмова з рідним 💛",
-            "Напиши комусь важливому — коротке «як ти?» теж робить дива ☀️",
-            "Вимкни сповіщення на 10 хвилин і просто подихай свіжим повітрям 🌬️",
-            "Зроби маленьку приємність для себе — ти це точно заслужила 🌸",
-            "Пройдися без маршруту — просто дивись навколо і дихай 🍁",
-            "Проведи час із дитиною або улюбленцем — вони лікують 🧡",
-            "Пограйте сімейну гру — трохи сміху нікому не шкодить 🎯",
-            "Знайди момент щиро посміхнутись — навіть без причини 😊",
-            "Зроби кілька осінніх фото — м’яке світло зараз чарівне 📸",
-            "Почни ранок неспішно: плед, чай і спокій ☕🧣",
-            "Дозволь собі просто бути в моменті — без планів і поспіху 🌾",
-            "Подивись у вікно на небо — інколи цього достатньо ☁️",
-            "Зроби щось затишне вдома: свічка, музика, теплий чай 🕯️",
-            "Побач у цих вихідних маленьку дрібничку, яка зробить тебе щасливою 🌟"
+    function navigateTo(page) {
+        window.scrollTo(0, 0);
+        switch(page) {
+            case 'home': renderHome(); break;
+            case 'about': renderAbout(); break;
+            case 'self': renderShop('Аромати для себе', 'Ці аромати створені для знайомства з парфумерією без ризику.'); break;
+            case 'home-scents': renderShop('Аромати для дому', 'Аромат у просторі — це атмосфера. Для відпочинку, роботи або затишку.'); break;
+            case 'sets': renderSets(); break;
+            case 'how-it-works': renderHowItWorks(); break;
+            case 'faq': renderFAQ(); break;
+            case 'contacts': renderContacts(); break;
+            case 'delivery': renderTextPage('Доставка та оплата', 'Доставка здійснюється Новою Поштою по всій Україні.'); break;
+            case 'returns': renderTextPage('Повернення та обмін', 'Згідно із законом України, парфумерія належної якості поверненню не підлягає.'); break;
+            default: renderHome();
+        }
+    }
+
+    function renderHome() {
+        content.innerHTML = `
+            <!-- Hero Block -->
+            <section class="fade-in min-h-[90vh] flex items-center relative overflow-hidden bg-[#faf9f6]">
+                <div class="absolute right-0 top-0 w-1/2 h-full hidden md:block">
+                    <div class="w-full h-full bg-cover bg-center opacity-90" style="background-image: url('https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&q=80&w=1000');"></div>
+                    <div class="absolute inset-0 bg-gradient-to-r from-[#faf9f6] via-transparent to-transparent"></div>
+                </div>
+                
+                <div class="max-w-7xl mx-auto px-4 relative z-10 w-full">
+                    <div class="max-w-2xl">
+                        <span class="text-[10px] uppercase tracking-[0.4em] text-gray-400 mb-6 block">Онлайн-студія ароматів</span>
+                        <h1 class="text-6xl md:text-8xl mb-8 leading-[1.1]">Your <span class="italic font-light">Sun</span></h1>
+                        
+                        <div class="mb-12 space-y-2">
+                            <p class="slogan-accent">Your Sun не каже: «Купи цей аромат»</p>
+                            <p class="slogan-accent text-gray-800 font-medium italic">Your Sun каже: «Давай знайдемо твій»</p>
+                        </div>
+
+                        <p class="text-gray-500 mb-12 text-lg font-light leading-relaxed">
+                            Обирати аромат не обовʼязково складно. <br>
+                            Ми зібрали найпопулярніші — щоб ви могли спробувати і знайти свій.
+                        </p>
+
+                        <div class="flex flex-col sm:flex-row gap-6">
+                            <button onclick="navigateTo('self')" class="btn-primary">Аромати для себе</button>
+                            <button onclick="navigateTo('home-scents')" class="btn-outline">Аромати для дому</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Video Section -->
+            <section class="py-24 bg-white">
+                <div class="max-w-5xl mx-auto px-4">
+                    <div class="text-center mb-16">
+                        <h2 class="text-4xl mb-4">Відчуйте атмосферу</h2>
+                        <p class="text-gray-400 uppercase tracking-widest text-[10px]">Короткий огляд нашої філософії</p>
+                    </div>
+                    <div class="video-container shadow-2xl">
+                        <!-- Placeholder for Brand Video -->
+                        <div class="absolute inset-0 bg-gray-100 flex items-center justify-center">
+                            <div class="text-center">
+                                <i class="fa-solid fa-play text-5xl mb-4 text-gray-300"></i>
+                                <p class="text-gray-400 text-sm">Відео про розпаковку та тестування</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Idea Block -->
+            <section class="py-32 bg-[#fdfcfb]">
+                <div class="max-w-7xl mx-auto px-4 grid md:grid-cols-2 gap-24 items-center">
+                    <div class="relative">
+                        <div class="aspect-[3/4] rounded-[3rem] overflow-hidden shadow-xl">
+                            <img src="https://images.unsplash.com/photo-1615485290382-441e4d0c9cb5?auto=format&fit=crop&q=80&w=1000" alt="Scent testing" class="w-full h-full object-cover">
+                        </div>
+                        <div class="absolute -bottom-10 -right-10 w-64 h-64 bg-white p-4 rounded-3xl shadow-2xl hidden md:block">
+                            <img src="https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?auto=format&fit=crop&q=80&w=500" class="w-full h-full object-cover rounded-2xl">
+                        </div>
+                    </div>
+                    <div>
+                        <h2 class="text-5xl mb-10 leading-tight">Чому ми створили Your Sun</h2>
+                        <div class="space-y-6 text-gray-600 leading-relaxed font-light text-lg">
+                            <p class="italic serif text-xl text-black">«Який аромат обрати?» — це питання ми чуємо найчастіше.</p>
+                            <p>У світі парфумерії нескінченна кількість запахів, і саме це ускладнює вибір.</p>
+                            <p>Тому ми створили онлайн-студію ароматів — простір, де можна спокійно тестувати, порівнювати і знаходити "свій" аромат без поспіху та ризику.</p>
+                        </div>
+                        <button onclick="navigateTo('about')" class="mt-12 text-sm font-bold uppercase tracking-widest border-b border-black pb-2">Наша історія</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Categories -->
+            <section class="py-32 bg-white">
+                <div class="max-w-7xl mx-auto px-4">
+                    <div class="grid md:grid-cols-4 gap-8">
+                        ${['Аромати для себе', 'Аромати для дому', 'Сети для знайомства', 'Подарункові набори'].map(cat => `
+                            <div class="group cursor-pointer" onclick="navigateTo('self')">
+                                <div class="aspect-[4/5] bg-gray-50 rounded-[2rem] mb-6 overflow-hidden flex items-center justify-center relative">
+                                    <div class="text-gray-200 uppercase tracking-widest text-[10px] group-hover:scale-110 transition-transform duration-700">Image Placeholder</div>
+                                    <div class="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors"></div>
+                                </div>
+                                <h3 class="text-center text-xs font-bold uppercase tracking-[0.2em]">${cat}</h3>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            </section>
+        `;
+    }
+
+    function renderShop(title, description) {
+        // Використовуємо референс з кольоровими атомайзерами для карток
+        const colors = ['#008080', '#FFD700', '#C0C0C0', '#4B0082', '#FFB6C1', '#0000FF'];
+        content.innerHTML = `
+            <div class="fade-in max-w-7xl mx-auto px-4 py-24">
+                <header class="mb-20">
+                    <h1 class="text-6xl mb-6">${title}</h1>
+                    <p class="text-gray-400 font-light max-w-2xl text-lg">${description}</p>
+                    <div class="mt-8 flex gap-4 text-[10px] uppercase tracking-widest font-bold">
+                        <span class="text-gray-300">Об'єми:</span>
+                        <span>2 мл</span> / <span>3 мл</span> / <span>5 мл</span>
+                    </div>
+                </header>
+                
+                <div class="grid md:grid-cols-3 gap-x-12 gap-y-20">
+                    ${[1, 2, 3, 4, 5, 6].map(i => `
+                        <div class="product-card group">
+                            <div class="aspect-[3/4] rounded-[2.5rem] bg-[#f8f6f4] mb-8 overflow-hidden relative flex flex-col items-center justify-center p-12">
+                                <!-- Визуалізація кольорового атомайзера як на фото -->
+                                <div class="w-12 h-40 rounded-full shadow-2xl transition-transform group-hover:rotate-12 duration-500" style="background: ${colors[i-1]}; border: 2px solid rgba(255,255,255,0.2)">
+                                    <div class="w-full h-1/4 border-b border-white/20"></div>
+                                </div>
+                                <div class="mt-8 text-[10px] text-gray-300 uppercase tracking-tighter">Travel Atomizer</div>
+                            </div>
+                            <h3 class="text-2xl mb-3">Назва аромату №${i}</h3>
+                            <p class="text-gray-400 text-sm font-light mb-6 leading-relaxed">Цей аромат — про стан, а не про ноти. Він звучить індивідуально на кожному.</p>
+                            
+                            <div class="flex gap-2 mb-8">
+                                ${['2ml', '3ml', '5ml'].map(size => `
+                                    <button class="flex-1 py-3 text-[10px] border border-gray-100 rounded-xl hover:border-black transition-all uppercase tracking-widest">${size}</button>
+                                `).join('')}
+                            </div>
+                            
+                            <button class="w-full btn-primary !py-4">Додати до кошика</button>
+                            <p class="mt-4 text-[9px] text-center text-gray-300 uppercase tracking-widest italic">Розлив у стерильних умовах</p>
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
+        `;
+    }
+
+    function renderAbout() {
+        content.innerHTML = `
+            <div class="fade-in py-32">
+                <div class="max-w-4xl mx-auto px-4">
+                    <h1 class="text-7xl mb-16 text-center">Про нас</h1>
+                    
+                    <div class="grid md:grid-cols-2 gap-16 mb-24 items-center">
+                        <div class="aspect-square rounded-full overflow-hidden bg-gray-100">
+                             <img src="https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000">
+                        </div>
+                        <div class="space-y-6">
+                            <p class="text-2xl italic serif leading-relaxed">Ми — дві подруги, які щиро обожнюють парфумерію.</p>
+                            <p class="text-gray-500 font-light">Довгий час ми спостерігали, як люди губляться серед сотень ароматів і не знають, з чого почати.</p>
+                        </div>
+                    </div>
+
+                    <div class="prose prose-lg max-w-none text-gray-600 font-light space-y-8">
+                        <p>Купівля парфумів часто перетворюється на ризик — запах подобається в магазині, але зовсім інакше розкривається з часом.</p>
+                        <p>Так зʼявилась ідея створити <span class="text-black font-medium">Your Sun</span> — онлайн-студію ароматів, де можна спокійно тестувати, відчувати і знаходити “свій” аромат.</p>
+                        
+                        <div class="py-12 border-y border-gray-100 my-16">
+                            <h3 class="text-black text-center text-sm uppercase tracking-[0.3em] mb-12 font-bold">Ми відібрали найкраще для вас:</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+                                <div>
+                                    <p class="text-xs uppercase tracking-widest font-bold mb-2">Для молоді</p>
+                                    <p class="text-sm italic">З характером та драйвом</p>
+                                </div>
+                                <div>
+                                    <p class="text-xs uppercase tracking-widest font-bold mb-2">Для жінок</p>
+                                    <p class="text-sm italic">Які точно знають, чого хочуть</p>
+                                </div>
+                                <div>
+                                    <p class="text-xs uppercase tracking-widest font-bold mb-2">Для шукачів</p>
+                                    <p class="text-sm italic">Хто любить експерименти</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+
+    function renderHowItWorks() {
+        const steps = [
+            "Обираєте аромати або сет",
+            "Оформлюєте замовлення",
+            "Отримуєте посилку Новою Поштою",
+            "Тестуєте аромати у зручний час",
+            "Обираєте той, який підходить саме вам"
         ];
+        content.innerHTML = `
+            <div class="fade-in max-w-4xl mx-auto px-4 py-32">
+                <h1 class="text-6xl mb-24 text-center">Як це працює</h1>
+                <div class="space-y-24">
+                    ${steps.map((step, i) => `
+                        <div class="flex gap-12 items-center ${i % 2 === 0 ? '' : 'flex-row-reverse text-right'}">
+                            <div class="text-9xl font-thin text-gray-50 opacity-20">${i+1}</div>
+                            <div class="flex-1">
+                                <h3 class="text-3xl font-light">${step}</h3>
+                            </div>
+                            <div class="hidden md:block w-32 h-[1px] bg-gray-100"></div>
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
+        `;
+    }
 
-        let count = 0;
-        let usedWishes = [];
+    function renderSets() {
+        content.innerHTML = `
+            <div class="fade-in max-w-7xl mx-auto px-4 py-32">
+                <div class="text-center mb-24">
+                    <h1 class="text-6xl mb-6">Сети ароматів</h1>
+                    <p class="text-gray-400 text-lg font-light">Найзручніший спосіб познайомитися з парфумерією.</p>
+                </div>
 
-        function generateWish() {
-            if (usedWishes.length === wishes.length) {
-                usedWishes = [];
-            }
+                <div class="grid md:grid-cols-2 gap-12">
+                    <div class="bg-black text-white p-20 rounded-[3rem] flex flex-col justify-between aspect-square md:aspect-auto">
+                        <div>
+                            <span class="text-[10px] uppercase tracking-[0.4em] opacity-50 mb-4 block">Готові рішення</span>
+                            <h2 class="text-4xl mb-8">Найпопулярніші сети</h2>
+                            <ul class="space-y-4 text-gray-400 font-light italic">
+                                <li>— Сет "Бестселери місяця"</li>
+                                <li>— Сет "Для особливого настрою"</li>
+                                <li>— Сет "Атмосфера дому"</li>
+                            </ul>
+                        </div>
+                        <button class="bg-white text-black py-5 rounded-full uppercase text-[10px] font-bold tracking-widest mt-12 hover:bg-gray-100 transition-colors">Переглянути сети</button>
+                    </div>
+                    
+                    <div class="border border-gray-100 p-20 rounded-[3rem] flex flex-col justify-between aspect-square md:aspect-auto">
+                        <div>
+                            <span class="text-[10px] uppercase tracking-[0.4em] text-gray-300 mb-4 block">Творчий підхід</span>
+                            <h2 class="text-4xl mb-8">Збери набір вручну</h2>
+                            <p class="text-gray-500 font-light leading-relaxed">Обирайте будь-які аромати з нашої колекції, а ми дбайливо запакуємо їх у ваш персональний сет.</p>
+                        </div>
+                        <button onclick="navigateTo('self')" class="btn-outline mt-12">Почати вибір</button>
+                    </div>
+                </div>
+            </div>
+        `;
+    }
 
-            const wrapper = document.getElementById('cookieWrapper');
-            const wishEl = document.getElementById('wishText');
+    function renderFAQ() {
+        const faqs = [
+            { q: "Як обрати аромат?", a: "Ви можете прочитати опис на сайті або написати нашому консультанту в Telegram чи WhatsApp." },
+            { q: "Чи можна зібрати сет вручну?", a: "Так, ви можете самостійно обрати аромати." },
+            { q: "Які обʼєми доступні?", a: "2 мл, 3 мл або 5 мл." },
+            { q: "Чи можна скасувати замовлення?", a: "Так, якщо замовлення ще не відправлене." },
+            { q: "Чи підлягають аромати поверненню?", a: "Парфумерно-косметична продукція не підлягає поверненню згідно з законодавством України." }
+        ];
+        content.innerHTML = `
+            <div class="fade-in max-w-3xl mx-auto px-4 py-32">
+                <h1 class="text-6xl mb-20 text-center">FAQ</h1>
+                <div class="space-y-12">
+                    ${faqs.map(item => `
+                        <div class="group border-b border-gray-100 pb-12 cursor-pointer">
+                            <h3 class="text-xl mb-4 flex justify-between items-center group-hover:text-gray-400 transition-colors">
+                                ${item.q}
+                                <i class="fa-solid fa-plus text-xs"></i>
+                            </h3>
+                            <p class="text-gray-500 font-light leading-relaxed">${item.a}</p>
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
+        `;
+    }
 
-            const availableWishes = wishes.filter((_, index) => !usedWishes.includes(index));
-            const randomIndex = Math.floor(Math.random() * availableWishes.length);
-            const selectedWish = availableWishes[randomIndex];
-            const originalIndex = wishes.indexOf(selectedWish);
+    function renderContacts() {
+        content.innerHTML = `
+            <div class="fade-in max-w-7xl mx-auto px-4 py-32 grid md:grid-cols-2 gap-24">
+                <div>
+                    <h1 class="text-7xl mb-12">Привіт!</h1>
+                    <p class="text-gray-400 text-xl font-light mb-16">Ми завжди раді вашим запитанням. Напишіть нам у месенджері або на пошту.</p>
+                    
+                    <div class="space-y-10">
+                        <div class="flex items-center gap-6">
+                            <div class="w-16 h-16 rounded-full bg-gray-50 flex items-center justify-center text-xl"><i class="fa-brands fa-telegram"></i></div>
+                            <div>
+                                <p class="text-[10px] font-bold uppercase tracking-widest text-gray-300 mb-1">Telegram</p>
+                                <p class="text-xl">@your_sun_studio</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-6">
+                            <div class="w-16 h-16 rounded-full bg-gray-50 flex items-center justify-center text-xl"><i class="fa-brands fa-whatsapp"></i></div>
+                            <div>
+                                <p class="text-[10px] font-bold uppercase tracking-widest text-gray-300 mb-1">WhatsApp</p>
+                                <p class="text-xl">+380 99 000 00 00</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white shadow-2xl rounded-[3rem] p-16">
+                    <h2 class="text-3xl mb-10">Швидке повідомлення</h2>
+                    <form class="space-y-6" onsubmit="event.preventDefault(); alert('Дякуємо! Ми звʼяжемось з вами.')">
+                        <div class="border-b border-gray-100 pb-2">
+                            <input type="text" placeholder="Ваше ім'я" class="w-full bg-transparent outline-none font-light">
+                        </div>
+                        <div class="border-b border-gray-100 pb-2">
+                            <input type="text" placeholder="Як з вами зв'язатися?" class="w-full bg-transparent outline-none font-light">
+                        </div>
+                        <div class="border-b border-gray-100 pb-2">
+                            <textarea placeholder="Ваше запитання" rows="3" class="w-full bg-transparent outline-none font-light"></textarea>
+                        </div>
+                        <button class="w-full btn-primary mt-8">Надіслати</button>
+                    </form>
+                </div>
+            </div>
+        `;
+    }
 
-            usedWishes.push(originalIndex);
+    function renderTextPage(title, text) {
+        content.innerHTML = `
+            <div class="fade-in max-w-3xl mx-auto px-4 py-32">
+                <h1 class="text-5xl mb-12 text-center">${title}</h1>
+                <div class="text-gray-500 font-light leading-loose whitespace-pre-line text-center">
+                    ${text}
+                </div>
+            </div>
+        `;
+    }
 
-            // "закриваємо" печиво
-            wrapper.classList.remove('open');
-            wishEl.style.opacity = '0';
+    // Initial load
+    navigateTo('home');
+</script>
 
-            setTimeout(() => {
-                wishEl.textContent = selectedWish;
-                count++;
-                document.getElementById('counter').textContent = count + ' побажань показано';
-
-                // "відкриваємо" — папірець виїжджає
-                wrapper.classList.add('open');
-                wishEl.style.transition = 'opacity 0.4s ease';
-                wishEl.style.opacity = '1';
-            }, 200);
-        }
-
-        // Створення листочків
-        function createLeaf() {
-            const leaf = document.createElement('div');
-            leaf.className = 'leaf';
-            leaf.textContent = ['🍂', '🍁', '🍃'][Math.floor(Math.random() * 3)];
-            leaf.style.left = Math.random() * 100 + '%';
-            leaf.style.animationDuration = (Math.random() * 3 + 5) + 's';
-            leaf.style.animationDelay = Math.random() * 5 + 's';
-            document.body.appendChild(leaf);
-
-            setTimeout(() => {
-                leaf.remove();
-            }, 10000);
-        }
-
-        setInterval(createLeaf, 2000);
-
-        for (let i = 0; i < 5; i++) {
-            setTimeout(createLeaf, i * 400);
-        }
-    </script>
 </body>
 </html>
