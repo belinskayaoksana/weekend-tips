@@ -1,504 +1,332 @@
-<!DOCTYPE html>
-<html lang="uk">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Sun | Онлайн-студія ароматів</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap');
-        
-        :root {
-            --brand-gold: #d4af37;
-            --brand-bg: #fdfcfb;
-            --brand-dark: #1a1a1a;
-        }
+import React, { useState, useEffect } from 'react';
+import { Menu, X, ShoppingBag, ArrowRight, Instagram, Send, MessageCircle, ChevronDown, ChevronUp, Check } from 'lucide-react';
 
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--brand-bg);
-            color: var(--brand-dark);
-        }
-        
-        h1, h2, h3, .serif {
-            font-family: 'Playfair Display', serif;
-        }
+// --- НАЛАШТУВАННЯ ЗОБРАЖЕНЬ З ВАШОГО GITHUB ---
+const REPO_URL = "https://raw.githubusercontent.com/belinskayaoksana/weekend-tips/main/";
 
-        .fade-in {
-            animation: fadeIn 0.8s ease-out;
-        }
+const IMAGES = {
+  heroLeft: `${REPO_URL}unnamed.jpg`, 
+  heroRight: `${REPO_URL}Gemini_Generated_Image_ojp4wwojp4wwojp4.png`,
+  atomizer1: `${REPO_URL}Gemini_Generated_Image_ln2iqdln2iqdln2i.png`,
+  // Заглушки для інших секцій
+  atomizer2: "https://images.unsplash.com/photo-1594035910387-fea47794261f?q=80&w=1974&auto=format&fit=crop",
+  atomizer3: "https://images.unsplash.com/photo-1615485290382-441e4d049cb5?q=80&w=1974&auto=format&fit=crop",
+  atomizer4: "https://images.unsplash.com/photo-1512201066735-b5a6bc8aa097?q=80&w=2070&auto=format&fit=crop",
+  aboutUs: "https://images.unsplash.com/photo-1556745753-b2904692b3cd?q=80&w=2073&auto=format&fit=crop",
+  productPlaceholder: `${REPO_URL}Gemini_Generated_Image_ojp4wwojp4wwojp4.png`
+};
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+const App = () => {
+  const [currentPage, setCurrentPage] = useState('home');
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [expandedFaq, setExpandedFaq] = useState(null);
 
-        .slogan-accent {
-            @apply text-xl md:text-2xl italic text-gray-400 font-light leading-relaxed;
-        }
+  // Скрол вгору при зміні сторінки
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [currentPage]);
 
-        .btn-primary {
-            @apply bg-[#1a1a1a] text-white px-10 py-4 rounded-full hover:bg-black transition-all duration-300 text-xs uppercase tracking-[0.2em];
-        }
+  const navigate = (page) => {
+    setCurrentPage(page);
+    setIsMenuOpen(false);
+  };
 
-        .btn-outline {
-            @apply border border-[#1a1a1a] text-[#1a1a1a] px-10 py-4 rounded-full hover:bg-[#1a1a1a] hover:text-white transition-all duration-300 text-xs uppercase tracking-[0.2em];
-        }
+  // --- Компоненти інтерфейсу ---
 
-        .product-card img {
-            transition: transform 0.5s ease;
-        }
-        .product-card:hover img {
-            transform: scale(1.05);
-        }
-
-        .video-container {
-            position: relative;
-            padding-bottom: 56.25%;
-            height: 0;
-            overflow: hidden;
-            border-radius: 2rem;
-        }
-        .video-container iframe, .video-container video {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-    </style>
-</head>
-<body>
-
-<div id="app">
-    <!-- Header -->
-    <nav class="sticky top-0 z-50 bg-white/90 backdrop-blur-lg border-b border-gray-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-24 items-center">
-                <div class="flex-shrink-0 cursor-pointer" onclick="navigateTo('home')">
-                    <span class="text-2xl tracking-[0.3em] font-light uppercase">Your <span class="font-bold">Sun</span></span>
-                </div>
-                
-                <div class="hidden md:flex space-x-10 text-[10px] font-bold uppercase tracking-[0.2em]">
-                    <button onclick="navigateTo('home')" class="hover:text-gray-400 transition-colors">Головна</button>
-                    <div class="relative group">
-                        <button class="hover:text-gray-400 transition-colors">Аромати <i class="fa-solid fa-chevron-down text-[8px] ml-1"></i></button>
-                        <div class="absolute hidden group-hover:block w-48 bg-white shadow-2xl mt-4 py-4 border border-gray-50">
-                            <button onclick="navigateTo('self')" class="block px-6 py-2 hover:bg-gray-50 w-full text-left">Для себе</button>
-                            <button onclick="navigateTo('home-scents')" class="block px-6 py-2 hover:bg-gray-50 w-full text-left">Для дому</button>
-                        </div>
-                    </div>
-                    <button onclick="navigateTo('sets')" class="hover:text-gray-400 transition-colors">Сети</button>
-                    <button onclick="navigateTo('how-it-works')" class="hover:text-gray-400 transition-colors">Як це працює</button>
-                    <button onclick="navigateTo('about')" class="hover:text-gray-400 transition-colors">Про нас</button>
-                    <button onclick="navigateTo('faq')" class="hover:text-gray-400 transition-colors">FAQ</button>
-                    <button onclick="navigateTo('contacts')" class="hover:text-gray-400 transition-colors">Контакти</button>
-                </div>
-
-                <div class="flex items-center space-x-5">
-                    <button class="text-sm"><i class="fa-solid fa-magnifying-glass"></i></button>
-                    <button class="text-sm relative">
-                        <i class="fa-solid fa-bag-shopping"></i>
-                        <span class="absolute -top-2 -right-2 bg-black text-white text-[8px] w-4 h-4 rounded-full flex items-center justify-center">0</span>
-                    </button>
-                    <button id="mobile-menu-button" class="md:hidden text-xl">
-                        <i class="fa-solid fa-bars-staggered"></i>
-                    </button>
-                </div>
+  const Header = () => (
+    <nav className="fixed top-0 w-full bg-white/90 backdrop-blur-md z-50 border-b border-stone-100">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between items-center h-20">
+          <div className="flex-shrink-0 cursor-pointer" onClick={() => navigate('home')}>
+            <h1 className="text-xl tracking-[0.2em] font-light uppercase">Fragrance <span className="font-bold">Studio</span></h1>
+          </div>
+          
+          <div className="hidden md:flex space-x-8 text-sm uppercase tracking-widest font-medium text-stone-600">
+            <button onClick={() => navigate('home')} className={`hover:text-black transition ${currentPage === 'home' ? 'text-black border-b border-black' : ''}`}>Головна</button>
+            <div className="relative group">
+              <button className="hover:text-black transition flex items-center gap-1">Аромати <ChevronDown size={14}/></button>
+              <div className="absolute top-full left-0 bg-white shadow-xl py-4 px-6 w-48 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all">
+                <button onClick={() => navigate('scents')} className="block py-2 hover:text-black text-stone-500 w-full text-left">Для себе</button>
+                <button onClick={() => navigate('home-scents')} className="block py-2 hover:text-black text-stone-500 w-full text-left">Для дому</button>
+              </div>
             </div>
+            <button onClick={() => navigate('sets')} className={`hover:text-black transition ${currentPage === 'sets' ? 'text-black border-b border-black' : ''}`}>Сети</button>
+            <button onClick={() => navigate('about')} className={`hover:text-black transition ${currentPage === 'about' ? 'text-black border-b border-black' : ''}`}>Про нас</button>
+            <button onClick={() => navigate('faq')} className={`hover:text-black transition ${currentPage === 'faq' ? 'text-black border-b border-black' : ''}`}>FAQ</button>
+          </div>
+
+          <div className="flex items-center space-x-4">
+            <button className="p-2 relative">
+                <ShoppingBag size={20} />
+                <span className="absolute top-0 right-0 w-2 h-2 bg-stone-900 rounded-full"></span>
+            </button>
+            <button className="md:hidden p-2" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+              {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
         </div>
+      </div>
+
+      {/* Мобільне меню */}
+      {isMenuOpen && (
+        <div className="md:hidden bg-white border-b border-stone-100 animate-in fade-in slide-in-from-top-4 duration-300">
+          <div className="px-6 py-8 space-y-6 text-center uppercase tracking-widest text-sm">
+            <button onClick={() => navigate('home')} className="block w-full py-2 border-b border-stone-50">Головна</button>
+            <button onClick={() => navigate('scents')} className="block w-full py-2 border-b border-stone-50">Аромати для себе</button>
+            <button onClick={() => navigate('home-scents')} className="block w-full py-2 border-b border-stone-50">Аромати для дому</button>
+            <button onClick={() => navigate('sets')} className="block w-full py-2 border-b border-stone-50">Сети</button>
+            <button onClick={() => navigate('about')} className="block w-full py-2 border-b border-stone-50">Про нас</button>
+            <button onClick={() => navigate('faq')} className="block w-full py-2 border-b border-stone-50">FAQ</button>
+          </div>
+        </div>
+      )}
     </nav>
+  );
 
-    <!-- Content Area -->
-    <main id="content">
-        <!-- Home Page Rendered Below -->
-    </main>
-
-    <!-- Footer -->
-    <footer class="bg-white pt-24 pb-12 border-t border-gray-100">
-        <div class="max-w-7xl mx-auto px-4 grid md:grid-cols-4 gap-16 mb-20">
-            <div class="col-span-1 md:col-span-1">
-                <span class="text-xl tracking-[0.3em] font-light uppercase">Your <span class="font-bold">Sun</span></span>
-                <p class="mt-6 text-gray-400 text-sm leading-relaxed font-light italic">
-                    "Your Sun не каже: «Купи цей аромат» <br>Your Sun каже: «Давай знайдемо твій»"
-                </p>
-            </div>
-            <div>
-                <h4 class="text-[10px] font-bold uppercase tracking-widest mb-8">Службові сторінки</h4>
-                <ul class="space-y-4 text-sm text-gray-500 font-light">
-                    <li><button onclick="navigateTo('delivery')" class="hover:text-black">Доставка та оплата</button></li>
-                    <li><button onclick="navigateTo('returns')" class="hover:text-black">Повернення та обмін</button></li>
-                    <li><button class="hover:text-black">Публічна оферта</button></li>
-                    <li><button class="hover:text-black">Політика конфіденційності</button></li>
-                </ul>
-            </div>
-            <div>
-                <h4 class="text-[10px] font-bold uppercase tracking-widest mb-8">Студія</h4>
-                <ul class="space-y-4 text-sm text-gray-500 font-light">
-                    <li><button onclick="navigateTo('about')" class="hover:text-black">Історія бренду</button></li>
-                    <li><button onclick="navigateTo('sets')" class="hover:text-black">Подарункові набори</button></li>
-                    <li><button onclick="navigateTo('contacts')" class="hover:text-black">Зв'язатися з нами</button></li>
-                </ul>
-            </div>
-            <div>
-                <h4 class="text-[10px] font-bold uppercase tracking-widest mb-8">Соціальні мережі</h4>
-                <div class="flex space-x-6">
-                    <a href="#" class="text-gray-400 hover:text-black transition-colors"><i class="fa-brands fa-instagram text-xl"></i></a>
-                    <a href="#" class="text-gray-400 hover:text-black transition-colors"><i class="fa-brands fa-telegram text-xl"></i></a>
-                    <a href="#" class="text-gray-400 hover:text-black transition-colors"><i class="fa-brands fa-whatsapp text-xl"></i></a>
-                </div>
-            </div>
+  const Footer = () => (
+    <footer className="bg-stone-50 border-t border-stone-200 pt-16 pb-8 mt-20">
+      <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-12 text-sm">
+        <div className="space-y-4">
+          <h2 className="text-lg font-bold tracking-widest uppercase">Fragrance Studio</h2>
+          <p className="text-stone-500 leading-relaxed">
+            Ваш путівник у світ нішевої парфумерії. Тестуйте, відчувайте, обирайте своє.
+          </p>
         </div>
-        <div class="text-center text-[10px] uppercase tracking-widest text-gray-300">
-            &copy; 2024 Your Sun Studio. Made with love for your senses.
+        <div>
+          <h3 className="font-bold uppercase tracking-widest mb-6">Сервіс</h3>
+          <ul className="space-y-3 text-stone-600">
+            <li><button onClick={() => navigate('faq')} className="hover:text-black">FAQ</button></li>
+            <li><button onClick={() => navigate('delivery')} className="hover:text-black">Доставка та оплата</button></li>
+            <li><button onClick={() => navigate('returns')} className="hover:text-black">Повернення</button></li>
+          </ul>
         </div>
+        <div>
+          <h3 className="font-bold uppercase tracking-widest mb-6">Меню</h3>
+          <ul className="space-y-3 text-stone-600">
+            <li><button onClick={() => navigate('scents')} className="hover:text-black">Аромати</button></li>
+            <li><button onClick={() => navigate('sets')} className="hover:text-black">Сети</button></li>
+            <li><button onClick={() => navigate('about')} className="hover:text-black">Про нас</button></li>
+          </ul>
+        </div>
+        <div>
+          <h3 className="font-bold uppercase tracking-widest mb-6">Ми в соцмережах</h3>
+          <div className="flex space-x-4 mb-6">
+            <a href="#" className="p-3 bg-white rounded-full shadow-sm hover:shadow-md transition"><Instagram size={18} /></a>
+            <a href="#" className="p-3 bg-white rounded-full shadow-sm hover:shadow-md transition"><Send size={18} /></a>
+            <a href="#" className="p-3 bg-white rounded-full shadow-sm hover:shadow-md transition"><MessageCircle size={18} /></a>
+          </div>
+          <p className="text-stone-400">© 2024 Fragrance Studio</p>
+        </div>
+      </div>
     </footer>
-</div>
+  );
 
-<script>
-    const content = document.getElementById('content');
+  // --- Сторінки ---
 
-    function navigateTo(page) {
-        window.scrollTo(0, 0);
-        switch(page) {
-            case 'home': renderHome(); break;
-            case 'about': renderAbout(); break;
-            case 'self': renderShop('Аромати для себе', 'Ці аромати створені для знайомства з парфумерією без ризику.'); break;
-            case 'home-scents': renderShop('Аромати для дому', 'Аромат у просторі — це атмосфера. Для відпочинку, роботи або затишку.'); break;
-            case 'sets': renderSets(); break;
-            case 'how-it-works': renderHowItWorks(); break;
-            case 'faq': renderFAQ(); break;
-            case 'contacts': renderContacts(); break;
-            case 'delivery': renderTextPage('Доставка та оплата', 'Доставка здійснюється Новою Поштою по всій Україні.'); break;
-            case 'returns': renderTextPage('Повернення та обмін', 'Згідно із законом України, парфумерія належної якості поверненню не підлягає.'); break;
-            default: renderHome();
-        }
-    }
+  const HomePage = () => (
+    <div className="animate-in fade-in duration-1000">
+      {/* Hero Section */}
+      <section className="relative h-[95vh] flex items-center justify-center overflow-hidden">
+        <div className="absolute inset-0 flex flex-col md:flex-row">
+          <div className="w-full md:w-1/2 h-full bg-stone-100 relative">
+             <img src={IMAGES.heroLeft} alt="Ваше фото 1" className="absolute inset-0 w-full h-full object-cover" />
+             <div className="absolute inset-0 bg-black/5"></div>
+          </div>
+          <div className="w-full md:w-1/2 h-full bg-stone-200 relative">
+             <img src={IMAGES.heroRight} alt="Ваше фото 2" className="absolute inset-0 w-full h-full object-cover" />
+             <div className="absolute inset-0 bg-black/5"></div>
+          </div>
+        </div>
+        
+        <div className="relative z-10 text-center px-4 max-w-4xl bg-white/50 backdrop-blur-xl p-12 md:p-20 rounded-sm border border-white/40 shadow-2xl mx-4">
+          <h2 className="text-4xl md:text-7xl font-light tracking-tight mb-6 text-stone-900 uppercase">
+            Онлайн-студія <br/> <span className="font-bold italic">ароматів</span>
+          </h2>
+          <p className="text-lg md:text-xl text-stone-700 mb-12 leading-relaxed font-light max-w-2xl mx-auto">
+            Обирати аромат не обовʼязково складно. Ми відібрали найкраще, щоб ви знайшли своє ідеальне доповнення.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <button onClick={() => navigate('scents')} className="px-12 py-5 bg-stone-900 text-white uppercase tracking-[0.2em] text-[10px] font-bold hover:bg-stone-800 transition shadow-xl">Аромати для себе</button>
+            <button onClick={() => navigate('home-scents')} className="px-12 py-5 bg-white text-stone-900 border border-stone-200 uppercase tracking-[0.2em] text-[10px] font-bold hover:bg-stone-50 transition shadow-sm">Для дому</button>
+          </div>
+        </div>
+      </section>
 
-    function renderHome() {
-        content.innerHTML = `
-            <!-- Hero Block -->
-            <section class="fade-in min-h-[90vh] flex items-center relative overflow-hidden bg-[#faf9f6]">
-                <div class="absolute right-0 top-0 w-1/2 h-full hidden md:block">
-                    <div class="w-full h-full bg-cover bg-center opacity-90" style="background-image: url('https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&q=80&w=1000');"></div>
-                    <div class="absolute inset-0 bg-gradient-to-r from-[#faf9f6] via-transparent to-transparent"></div>
-                </div>
-                
-                <div class="max-w-7xl mx-auto px-4 relative z-10 w-full">
-                    <div class="max-w-2xl">
-                        <span class="text-[10px] uppercase tracking-[0.4em] text-gray-400 mb-6 block">Онлайн-студія ароматів</span>
-                        <h1 class="text-6xl md:text-8xl mb-8 leading-[1.1]">Your <span class="italic font-light">Sun</span></h1>
-                        
-                        <div class="mb-12 space-y-2">
-                            <p class="slogan-accent">Your Sun не каже: «Купи цей аромат»</p>
-                            <p class="slogan-accent text-gray-800 font-medium italic">Your Sun каже: «Давай знайдемо твій»</p>
-                        </div>
+      {/* Переваги */}
+      <section className="py-24 px-4 bg-white">
+        <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-16">
+            <div className="text-center space-y-4">
+                <div className="w-12 h-12 bg-stone-50 rounded-full flex items-center justify-center mx-auto mb-6"><Check size={20} className="text-stone-400"/></div>
+                <h3 className="font-bold uppercase tracking-widest text-xs">Тільки оригінали</h3>
+                <p className="text-stone-500 text-sm leading-relaxed italic">Ми працюємо лише з оригінальною нішевою парфумерією.</p>
+            </div>
+            <div className="text-center space-y-4">
+                <div className="w-12 h-12 bg-stone-50 rounded-full flex items-center justify-center mx-auto mb-6"><Check size={20} className="text-stone-400"/></div>
+                <h3 className="font-bold uppercase tracking-widest text-xs">Зручний формат</h3>
+                <p className="text-stone-500 text-sm leading-relaxed italic">Тестери по 2, 3 та 5 мл — ідеально для знайомства.</p>
+            </div>
+            <div className="text-center space-y-4">
+                <div className="w-12 h-12 bg-stone-50 rounded-full flex items-center justify-center mx-auto mb-6"><Check size={20} className="text-stone-400"/></div>
+                <h3 className="font-bold uppercase tracking-widest text-xs">Швидка доставка</h3>
+                <p className="text-stone-500 text-sm leading-relaxed italic">Відправка наступного дня Новою Поштою.</p>
+            </div>
+        </div>
+      </section>
 
-                        <p class="text-gray-500 mb-12 text-lg font-light leading-relaxed">
-                            Обирати аромат не обовʼязково складно. <br>
-                            Ми зібрали найпопулярніші — щоб ви могли спробувати і знайти свій.
-                        </p>
+      {/* Візуальна галерея (Ваші атомайзери) */}
+      <section className="grid grid-cols-2 md:grid-cols-4 h-[300px] md:h-[500px]">
+        {[IMAGES.atomizer1, IMAGES.atomizer2, IMAGES.atomizer3, IMAGES.atomizer4].map((src, i) => (
+            <div key={i} className="relative group overflow-hidden bg-stone-100">
+                <img src={src} className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition duration-1000" alt="Gallery" />
+            </div>
+        ))}
+      </section>
 
-                        <div class="flex flex-col sm:flex-row gap-6">
-                            <button onclick="navigateTo('self')" class="btn-primary">Аромати для себе</button>
-                            <button onclick="navigateTo('home-scents')" class="btn-outline">Аромати для дому</button>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Video Section -->
-            <section class="py-24 bg-white">
-                <div class="max-w-5xl mx-auto px-4">
-                    <div class="text-center mb-16">
-                        <h2 class="text-4xl mb-4">Відчуйте атмосферу</h2>
-                        <p class="text-gray-400 uppercase tracking-widest text-[10px]">Короткий огляд нашої філософії</p>
-                    </div>
-                    <div class="video-container shadow-2xl">
-                        <!-- Placeholder for Brand Video -->
-                        <div class="absolute inset-0 bg-gray-100 flex items-center justify-center">
-                            <div class="text-center">
-                                <i class="fa-solid fa-play text-5xl mb-4 text-gray-300"></i>
-                                <p class="text-gray-400 text-sm">Відео про розпаковку та тестування</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Idea Block -->
-            <section class="py-32 bg-[#fdfcfb]">
-                <div class="max-w-7xl mx-auto px-4 grid md:grid-cols-2 gap-24 items-center">
-                    <div class="relative">
-                        <div class="aspect-[3/4] rounded-[3rem] overflow-hidden shadow-xl">
-                            <img src="https://images.unsplash.com/photo-1615485290382-441e4d0c9cb5?auto=format&fit=crop&q=80&w=1000" alt="Scent testing" class="w-full h-full object-cover">
-                        </div>
-                        <div class="absolute -bottom-10 -right-10 w-64 h-64 bg-white p-4 rounded-3xl shadow-2xl hidden md:block">
-                            <img src="https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?auto=format&fit=crop&q=80&w=500" class="w-full h-full object-cover rounded-2xl">
-                        </div>
-                    </div>
+      {/* Як це працює */}
+      <section className="py-24 bg-stone-50 px-4">
+        <div className="max-w-4xl mx-auto text-center">
+            <h2 className="text-2xl uppercase tracking-[0.3em] font-light mb-16">Як це працює</h2>
+            <div className="space-y-12">
+                <div className="flex flex-col md:flex-row items-center gap-8 text-left group">
+                    <span className="text-5xl font-serif text-stone-200 group-hover:text-stone-900 transition-colors">01</span>
                     <div>
-                        <h2 class="text-5xl mb-10 leading-tight">Чому ми створили Your Sun</h2>
-                        <div class="space-y-6 text-gray-600 leading-relaxed font-light text-lg">
-                            <p class="italic serif text-xl text-black">«Який аромат обрати?» — це питання ми чуємо найчастіше.</p>
-                            <p>У світі парфумерії нескінченна кількість запахів, і саме це ускладнює вибір.</p>
-                            <p>Тому ми створили онлайн-студію ароматів — простір, де можна спокійно тестувати, порівнювати і знаходити "свій" аромат без поспіху та ризику.</p>
-                        </div>
-                        <button onclick="navigateTo('about')" class="mt-12 text-sm font-bold uppercase tracking-widest border-b border-black pb-2">Наша історія</button>
+                        <h4 className="font-bold uppercase tracking-widest text-xs mb-2">Оберіть аромат або сет</h4>
+                        <p className="text-stone-500 text-sm italic">Перегляньте нашу колекцію та оберіть те, що вам відгукується за описом.</p>
                     </div>
                 </div>
-            </section>
-
-            <!-- Categories -->
-            <section class="py-32 bg-white">
-                <div class="max-w-7xl mx-auto px-4">
-                    <div class="grid md:grid-cols-4 gap-8">
-                        ${['Аромати для себе', 'Аромати для дому', 'Сети для знайомства', 'Подарункові набори'].map(cat => `
-                            <div class="group cursor-pointer" onclick="navigateTo('self')">
-                                <div class="aspect-[4/5] bg-gray-50 rounded-[2rem] mb-6 overflow-hidden flex items-center justify-center relative">
-                                    <div class="text-gray-200 uppercase tracking-widest text-[10px] group-hover:scale-110 transition-transform duration-700">Image Placeholder</div>
-                                    <div class="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors"></div>
-                                </div>
-                                <h3 class="text-center text-xs font-bold uppercase tracking-[0.2em]">${cat}</h3>
-                            </div>
-                        `).join('')}
+                <div className="flex flex-col md:flex-row items-center gap-8 text-left group">
+                    <span className="text-5xl font-serif text-stone-200 group-hover:text-stone-900 transition-colors">02</span>
+                    <div>
+                        <h4 className="font-bold uppercase tracking-widest text-xs mb-2">Тестуйте у зручний час</h4>
+                        <p className="text-stone-500 text-sm italic">Ви отримаєте стерильно розлитий аромат у зручному форматі для щоденного використання.</p>
                     </div>
                 </div>
-            </section>
-        `;
-    }
-
-    function renderShop(title, description) {
-        // Використовуємо референс з кольоровими атомайзерами для карток
-        const colors = ['#008080', '#FFD700', '#C0C0C0', '#4B0082', '#FFB6C1', '#0000FF'];
-        content.innerHTML = `
-            <div class="fade-in max-w-7xl mx-auto px-4 py-24">
-                <header class="mb-20">
-                    <h1 class="text-6xl mb-6">${title}</h1>
-                    <p class="text-gray-400 font-light max-w-2xl text-lg">${description}</p>
-                    <div class="mt-8 flex gap-4 text-[10px] uppercase tracking-widest font-bold">
-                        <span class="text-gray-300">Об'єми:</span>
-                        <span>2 мл</span> / <span>3 мл</span> / <span>5 мл</span>
-                    </div>
-                </header>
-                
-                <div class="grid md:grid-cols-3 gap-x-12 gap-y-20">
-                    ${[1, 2, 3, 4, 5, 6].map(i => `
-                        <div class="product-card group">
-                            <div class="aspect-[3/4] rounded-[2.5rem] bg-[#f8f6f4] mb-8 overflow-hidden relative flex flex-col items-center justify-center p-12">
-                                <!-- Визуалізація кольорового атомайзера як на фото -->
-                                <div class="w-12 h-40 rounded-full shadow-2xl transition-transform group-hover:rotate-12 duration-500" style="background: ${colors[i-1]}; border: 2px solid rgba(255,255,255,0.2)">
-                                    <div class="w-full h-1/4 border-b border-white/20"></div>
-                                </div>
-                                <div class="mt-8 text-[10px] text-gray-300 uppercase tracking-tighter">Travel Atomizer</div>
-                            </div>
-                            <h3 class="text-2xl mb-3">Назва аромату №${i}</h3>
-                            <p class="text-gray-400 text-sm font-light mb-6 leading-relaxed">Цей аромат — про стан, а не про ноти. Він звучить індивідуально на кожному.</p>
-                            
-                            <div class="flex gap-2 mb-8">
-                                ${['2ml', '3ml', '5ml'].map(size => `
-                                    <button class="flex-1 py-3 text-[10px] border border-gray-100 rounded-xl hover:border-black transition-all uppercase tracking-widest">${size}</button>
-                                `).join('')}
-                            </div>
-                            
-                            <button class="w-full btn-primary !py-4">Додати до кошика</button>
-                            <p class="mt-4 text-[9px] text-center text-gray-300 uppercase tracking-widest italic">Розлив у стерильних умовах</p>
-                        </div>
-                    `).join('')}
-                </div>
-            </div>
-        `;
-    }
-
-    function renderAbout() {
-        content.innerHTML = `
-            <div class="fade-in py-32">
-                <div class="max-w-4xl mx-auto px-4">
-                    <h1 class="text-7xl mb-16 text-center">Про нас</h1>
-                    
-                    <div class="grid md:grid-cols-2 gap-16 mb-24 items-center">
-                        <div class="aspect-square rounded-full overflow-hidden bg-gray-100">
-                             <img src="https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000">
-                        </div>
-                        <div class="space-y-6">
-                            <p class="text-2xl italic serif leading-relaxed">Ми — дві подруги, які щиро обожнюють парфумерію.</p>
-                            <p class="text-gray-500 font-light">Довгий час ми спостерігали, як люди губляться серед сотень ароматів і не знають, з чого почати.</p>
-                        </div>
-                    </div>
-
-                    <div class="prose prose-lg max-w-none text-gray-600 font-light space-y-8">
-                        <p>Купівля парфумів часто перетворюється на ризик — запах подобається в магазині, але зовсім інакше розкривається з часом.</p>
-                        <p>Так зʼявилась ідея створити <span class="text-black font-medium">Your Sun</span> — онлайн-студію ароматів, де можна спокійно тестувати, відчувати і знаходити “свій” аромат.</p>
-                        
-                        <div class="py-12 border-y border-gray-100 my-16">
-                            <h3 class="text-black text-center text-sm uppercase tracking-[0.3em] mb-12 font-bold">Ми відібрали найкраще для вас:</h3>
-                            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-                                <div>
-                                    <p class="text-xs uppercase tracking-widest font-bold mb-2">Для молоді</p>
-                                    <p class="text-sm italic">З характером та драйвом</p>
-                                </div>
-                                <div>
-                                    <p class="text-xs uppercase tracking-widest font-bold mb-2">Для жінок</p>
-                                    <p class="text-sm italic">Які точно знають, чого хочуть</p>
-                                </div>
-                                <div>
-                                    <p class="text-xs uppercase tracking-widest font-bold mb-2">Для шукачів</p>
-                                    <p class="text-sm italic">Хто любить експерименти</p>
-                                </div>
-                            </div>
-                        </div>
+                <div className="flex flex-col md:flex-row items-center gap-8 text-left group">
+                    <span className="text-5xl font-serif text-stone-200 group-hover:text-stone-900 transition-colors">03</span>
+                    <div>
+                        <h4 className="font-bold uppercase tracking-widest text-xs mb-2">Обирайте свій ідеал</h4>
+                        <p className="text-stone-500 text-sm italic">Знайдіть саме той аромат, який розкривається на вас найкраще.</p>
                     </div>
                 </div>
             </div>
-        `;
-    }
+        </div>
+      </section>
+    </div>
+  );
 
-    function renderHowItWorks() {
-        const steps = [
-            "Обираєте аромати або сет",
-            "Оформлюєте замовлення",
-            "Отримуєте посилку Новою Поштою",
-            "Тестуєте аромати у зручний час",
-            "Обираєте той, який підходить саме вам"
-        ];
-        content.innerHTML = `
-            <div class="fade-in max-w-4xl mx-auto px-4 py-32">
-                <h1 class="text-6xl mb-24 text-center">Як це працює</h1>
-                <div class="space-y-24">
-                    ${steps.map((step, i) => `
-                        <div class="flex gap-12 items-center ${i % 2 === 0 ? '' : 'flex-row-reverse text-right'}">
-                            <div class="text-9xl font-thin text-gray-50 opacity-20">${i+1}</div>
-                            <div class="flex-1">
-                                <h3 class="text-3xl font-light">${step}</h3>
-                            </div>
-                            <div class="hidden md:block w-32 h-[1px] bg-gray-100"></div>
-                        </div>
-                    `).join('')}
-                </div>
-            </div>
-        `;
-    }
-
-    function renderSets() {
-        content.innerHTML = `
-            <div class="fade-in max-w-7xl mx-auto px-4 py-32">
-                <div class="text-center mb-24">
-                    <h1 class="text-6xl mb-6">Сети ароматів</h1>
-                    <p class="text-gray-400 text-lg font-light">Найзручніший спосіб познайомитися з парфумерією.</p>
-                </div>
-
-                <div class="grid md:grid-cols-2 gap-12">
-                    <div class="bg-black text-white p-20 rounded-[3rem] flex flex-col justify-between aspect-square md:aspect-auto">
-                        <div>
-                            <span class="text-[10px] uppercase tracking-[0.4em] opacity-50 mb-4 block">Готові рішення</span>
-                            <h2 class="text-4xl mb-8">Найпопулярніші сети</h2>
-                            <ul class="space-y-4 text-gray-400 font-light italic">
-                                <li>— Сет "Бестселери місяця"</li>
-                                <li>— Сет "Для особливого настрою"</li>
-                                <li>— Сет "Атмосфера дому"</li>
-                            </ul>
-                        </div>
-                        <button class="bg-white text-black py-5 rounded-full uppercase text-[10px] font-bold tracking-widest mt-12 hover:bg-gray-100 transition-colors">Переглянути сети</button>
+  const CatalogPage = ({ type }) => (
+    <div className="pt-32 px-4 max-w-7xl mx-auto animate-in slide-in-from-bottom-8 duration-700">
+        <div className="max-w-2xl mb-16">
+            <h2 className="text-3xl font-light uppercase tracking-[0.2em] mb-4">
+                {type === 'self' ? 'Аромати для себе' : 'Аромати для дому'}
+            </h2>
+            <p className="text-stone-500 italic text-sm">
+                Відібрана колекція найпопулярніших нішевих ароматів у форматах 2, 3 та 5 мл.
+            </p>
+        </div>
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-x-6 gap-y-16">
+            {[1, 2, 3, 4, 5, 6].map(i => (
+                <div key={i} className="group cursor-pointer">
+                    <div className="aspect-[3/4] bg-stone-50 mb-6 overflow-hidden relative">
+                        <img src={IMAGES.productPlaceholder} className="w-full h-full object-cover group-hover:scale-110 transition duration-700" alt="Product" />
+                        <div className="absolute top-3 left-3 bg-white/80 px-2 py-1 text-[8px] font-bold uppercase tracking-widest">Original</div>
                     </div>
-                    
-                    <div class="border border-gray-100 p-20 rounded-[3rem] flex flex-col justify-between aspect-square md:aspect-auto">
-                        <div>
-                            <span class="text-[10px] uppercase tracking-[0.4em] text-gray-300 mb-4 block">Творчий підхід</span>
-                            <h2 class="text-4xl mb-8">Збери набір вручну</h2>
-                            <p class="text-gray-500 font-light leading-relaxed">Обирайте будь-які аромати з нашої колекції, а ми дбайливо запакуємо їх у ваш персональний сет.</p>
-                        </div>
-                        <button onclick="navigateTo('self')" class="btn-outline mt-12">Почати вибір</button>
+                    <h3 className="text-sm font-bold uppercase tracking-widest mb-1">Назва Аромату #{i}</h3>
+                    <p className="text-xs text-stone-400 italic mb-4">Ніжний, квітковий, стійкий</p>
+                    <div className="flex justify-between items-center border-t border-stone-100 pt-4">
+                        <span className="text-xs font-bold uppercase">від 150 грн</span>
+                        <button className="text-[10px] uppercase font-bold border-b border-black pb-0.5 hover:text-stone-400 transition">До кошика</button>
                     </div>
                 </div>
-            </div>
-        `;
-    }
+            ))}
+        </div>
+    </div>
+  );
 
-    function renderFAQ() {
-        const faqs = [
-            { q: "Як обрати аромат?", a: "Ви можете прочитати опис на сайті або написати нашому консультанту в Telegram чи WhatsApp." },
-            { q: "Чи можна зібрати сет вручну?", a: "Так, ви можете самостійно обрати аромати." },
-            { q: "Які обʼєми доступні?", a: "2 мл, 3 мл або 5 мл." },
-            { q: "Чи можна скасувати замовлення?", a: "Так, якщо замовлення ще не відправлене." },
-            { q: "Чи підлягають аромати поверненню?", a: "Парфумерно-косметична продукція не підлягає поверненню згідно з законодавством України." }
-        ];
-        content.innerHTML = `
-            <div class="fade-in max-w-3xl mx-auto px-4 py-32">
-                <h1 class="text-6xl mb-20 text-center">FAQ</h1>
-                <div class="space-y-12">
-                    ${faqs.map(item => `
-                        <div class="group border-b border-gray-100 pb-12 cursor-pointer">
-                            <h3 class="text-xl mb-4 flex justify-between items-center group-hover:text-gray-400 transition-colors">
-                                ${item.q}
-                                <i class="fa-solid fa-plus text-xs"></i>
-                            </h3>
-                            <p class="text-gray-500 font-light leading-relaxed">${item.a}</p>
+  const FAQPage = () => {
+    const faqs = [
+      { q: "Як обрати аромат?", a: "Ви можете почитати опис на сайті або написати нашому консультанту в Telegram чи WhatsApp — ми допоможемо підібрати аромат під ваш настрій." },
+      { q: "Чи можна зібрати сет вручну?", a: "Так, ви можете самостійно обрати будь-які аромати та додати їх у кошик. Ми запакуємо їх як набір." },
+      { q: "Які обʼєми доступні?", a: "Ми пропонуємо розлив у формати 2 мл, 3 мл та 5 мл. Це найзручніші обʼєми для знайомства з парфумом." },
+      { q: "Чи можна повернути товар?", a: "Парфумерно-косметична продукція не підлягає поверненню згідно з законодавством України. Але ми завжди готові вирішити будь-яку проблему з доставкою." }
+    ];
+
+    return (
+      <div className="pt-32 px-4 max-w-2xl mx-auto min-h-screen">
+        <h2 className="text-2xl uppercase tracking-widest text-center mb-16 font-light">Часті запитання</h2>
+        <div className="space-y-2">
+            {faqs.map((f, i) => (
+                <div key={i} className="border-b border-stone-100">
+                    <button 
+                        onClick={() => setExpandedFaq(expandedFaq === i ? null : i)}
+                        className="w-full py-6 flex justify-between items-center text-left hover:bg-stone-50/50 transition px-4"
+                    >
+                        <span className="text-xs font-bold uppercase tracking-widest">{f.q}</span>
+                        {expandedFaq === i ? <ChevronUp size={16}/> : <ChevronDown size={16}/>}
+                    </button>
+                    {expandedFaq === i && (
+                        <div className="px-4 pb-6 text-sm text-stone-500 italic leading-relaxed animate-in slide-in-from-top-2">
+                            {f.a}
                         </div>
-                    `).join('')}
+                    )}
+                </div>
+            ))}
+        </div>
+      </div>
+    );
+  };
+
+  const AboutPage = () => (
+    <div className="pt-32 px-4 max-w-4xl mx-auto animate-in fade-in duration-700">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+            <div className="aspect-[4/5] bg-stone-100 relative overflow-hidden rounded-sm shadow-xl">
+                <img src={IMAGES.aboutUs} alt="About Us" className="w-full h-full object-cover" />
+            </div>
+            <div className="space-y-8">
+                <h2 className="text-3xl font-light uppercase tracking-widest">Ми — дві подруги, <br/>які <span className="font-bold italic">люблять</span> парфуми.</h2>
+                <div className="space-y-4 text-stone-600 leading-relaxed italic text-sm">
+                    <p>Довгий час ми спостерігали, як люди губляться серед сотень ароматів і не знають, з чого почати.</p>
+                    <p>Так зʼявилась ідея створити онлайн-студію — простір, де можна спокійно тестувати і знаходити «свій» запах без зайвого поспіху.</p>
+                    <p>Ми дбаємо про стерильність, якість та вашу зручність. Кожна посилка — це маленька історія, яку ми збираємо спеціально для вас.</p>
+                </div>
+                <div className="pt-4 border-t border-stone-100">
+                    <p className="text-[10px] uppercase font-bold tracking-widest text-stone-400 mb-2">Зв'яжіться з нами:</p>
+                    <p className="text-sm">@fragrance_studio_ua</p>
                 </div>
             </div>
-        `;
+        </div>
+    </div>
+  );
+
+  // --- Головний рендер ---
+
+  const renderPage = () => {
+    switch(currentPage) {
+      case 'home': return <HomePage />;
+      case 'scents': return <CatalogPage type="self" />;
+      case 'home-scents': return <CatalogPage type="home" />;
+      case 'sets': return <CatalogPage type="self" />;
+      case 'about': return <AboutPage />;
+      case 'faq': return <FAQPage />;
+      case 'delivery': return <div className="pt-32 px-4 max-w-2xl mx-auto min-h-screen uppercase text-[10px] tracking-widest text-center">Доставка Новою Поштою. Оплата на карту або накладений платіж.</div>;
+      default: return <HomePage />;
     }
+  };
 
-    function renderContacts() {
-        content.innerHTML = `
-            <div class="fade-in max-w-7xl mx-auto px-4 py-32 grid md:grid-cols-2 gap-24">
-                <div>
-                    <h1 class="text-7xl mb-12">Привіт!</h1>
-                    <p class="text-gray-400 text-xl font-light mb-16">Ми завжди раді вашим запитанням. Напишіть нам у месенджері або на пошту.</p>
-                    
-                    <div class="space-y-10">
-                        <div class="flex items-center gap-6">
-                            <div class="w-16 h-16 rounded-full bg-gray-50 flex items-center justify-center text-xl"><i class="fa-brands fa-telegram"></i></div>
-                            <div>
-                                <p class="text-[10px] font-bold uppercase tracking-widest text-gray-300 mb-1">Telegram</p>
-                                <p class="text-xl">@your_sun_studio</p>
-                            </div>
-                        </div>
-                        <div class="flex items-center gap-6">
-                            <div class="w-16 h-16 rounded-full bg-gray-50 flex items-center justify-center text-xl"><i class="fa-brands fa-whatsapp"></i></div>
-                            <div>
-                                <p class="text-[10px] font-bold uppercase tracking-widest text-gray-300 mb-1">WhatsApp</p>
-                                <p class="text-xl">+380 99 000 00 00</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="bg-white shadow-2xl rounded-[3rem] p-16">
-                    <h2 class="text-3xl mb-10">Швидке повідомлення</h2>
-                    <form class="space-y-6" onsubmit="event.preventDefault(); alert('Дякуємо! Ми звʼяжемось з вами.')">
-                        <div class="border-b border-gray-100 pb-2">
-                            <input type="text" placeholder="Ваше ім'я" class="w-full bg-transparent outline-none font-light">
-                        </div>
-                        <div class="border-b border-gray-100 pb-2">
-                            <input type="text" placeholder="Як з вами зв'язатися?" class="w-full bg-transparent outline-none font-light">
-                        </div>
-                        <div class="border-b border-gray-100 pb-2">
-                            <textarea placeholder="Ваше запитання" rows="3" class="w-full bg-transparent outline-none font-light"></textarea>
-                        </div>
-                        <button class="w-full btn-primary mt-8">Надіслати</button>
-                    </form>
-                </div>
-            </div>
-        `;
-    }
+  return (
+    <div className="min-h-screen bg-white font-sans text-stone-900 selection:bg-stone-900 selection:text-white">
+      <Header />
+      <main>
+        {renderPage()}
+      </main>
+      <Footer />
 
-    function renderTextPage(title, text) {
-        content.innerHTML = `
-            <div class="fade-in max-w-3xl mx-auto px-4 py-32">
-                <h1 class="text-5xl mb-12 text-center">${title}</h1>
-                <div class="text-gray-500 font-light leading-loose whitespace-pre-line text-center">
-                    ${text}
-                </div>
-            </div>
-        `;
-    }
+      {/* Кнопка швидкого зв'язку */}
+      <a href="#" className="fixed bottom-6 right-6 p-4 bg-stone-900 text-white rounded-full shadow-2xl hover:scale-110 transition z-40 hidden md:block">
+        <Send size={20} />
+      </a>
+    </div>
+  );
+};
 
-    // Initial load
-    navigateTo('home');
-</script>
-
-</body>
-</html>
+export default App;
